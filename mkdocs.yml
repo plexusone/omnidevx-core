@@ -1,0 +1,39 @@
+site_name: OmniDevX Core
+site_description: Canonical event model and collectors for developer-experience telemetry
+site_url: https://plexusone.github.io/omnidevx-core
+repo_name: plexusone/omnidevx-core
+repo_url: https://github.com/plexusone/omnidevx-core
+
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+  features:
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Concepts:
+      - Canonical Events: concepts/events.md
+      - Event Store: concepts/store.md
+      - Privacy Model: concepts/privacy.md
+  - Providers:
+      - Claude Code: providers/claudecode.md
+      - Git: providers/git.md
+      - OpenTelemetry: providers/genericotel.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences
