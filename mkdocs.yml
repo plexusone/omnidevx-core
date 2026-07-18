@@ -32,6 +32,8 @@ nav:
       - Claude Code: providers/claudecode.md
       - Git: providers/git.md
       - OpenTelemetry: providers/genericotel.md
+  - Releases:
+      - v0.1.0: releases/v0.1.0.md
 
 markdown_extensions:
   - admonition

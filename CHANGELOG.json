@@ -1,0 +1,39 @@
+{
+  "irVersion": "1.0",
+  "project": "omnidevx-core",
+  "repository": "https://github.com/plexusone/omnidevx-core",
+  "versioning": "semver",
+  "commitConvention": "conventional",
+  "maintainers": ["grokify", "johncwang@gmail.com"],
+  "releases": [
+    {
+      "version": "v0.1.0",
+      "date": "2026-07-18",
+      "highlights": [
+        { "description": "Canonical event model and Collector contract for developer-experience telemetry (OmniDevX domain)", "commit": "d3c192d" },
+        { "description": "Local JSONL event store: idempotent, inspectable, reprocessable", "commit": "3639247" },
+        { "description": "Three collectors: Claude Code session history, git commits with AI co-author attribution, and a live OTLP/JSON metrics receiver", "commit": "aebb0f3" },
+        { "description": "Metadata-only privacy model enforced structurally and by tests: no prompt text, responses, or file contents are ever captured" }
+      ],
+      "added": [
+        { "description": "Canonical `Event` IR (omnidevx.event/v1): deterministic IDs, ai./devx. event-type namespaces, shared attribute keys, provenance with collection mode and confidence", "commit": "d3c192d" },
+        { "description": "`Collector` interface with `CollectRequest`/`CollectionResult`, half-open `Period` semantics, and diagnostics instead of silent drops", "commit": "d3c192d" },
+        { "description": "`store`: daily JSONL files per source under ~/.plexusone/omnidevx/data with owner-only permissions, ID-deduplicated idempotent writes, period/product-scoped reads, and damaged-line recovery", "commit": "3639247" },
+        { "description": "`providers/claudecode`: stdlib-only importer for ~/.claude/projects session JSONL — prompts (sidechains excluded), assistant messages with model and token usage, tool completions via tool_use/tool_result correlation, session spans", "commit": "aebb0f3" },
+        { "description": "`providers/git`: devx.change.committed events built on github.com/grokify/gogit, with change stats, author identity, commit-hash IDs that deduplicate clones, and AI attribution from Co-authored-by trailers via the canonical KnownAITools registry", "commit": "89f6ec0" },
+        { "description": "`providers/genericotel`: OTLP/HTTP (JSON) receiver converting Claude Code and Codex CLI token/cost metrics to ai.usage.recorded events with otel-mode provenance; log payloads acknowledged and discarded", "commit": "ad56256" }
+      ],
+      "tests": [
+        { "description": "Contract, store, and provider tests on fabricated fixtures only: period boundaries, JSON round-trips, store idempotency and damaged-line recovery, per-provider parsing, OTLP ingestion idempotency, and privacy assertions that content-like attribute keys fail the build", "commit": "02227d1" }
+      ],
+      "documentation": [
+        { "description": "README with OmniDXI disambiguation and usage", "commit": "250bb0d" },
+        { "description": "MkDocs site: canonical events, event store, privacy model, and per-provider guides including Claude Code OTel setup", "commit": "453f76a" },
+        { "description": "Status badges", "commit": "a5b30da" }
+      ],
+      "infrastructure": [
+        { "description": "CI workflows (go-ci, go-lint, go-sast-codeql), golangci-lint config, dependabot, MIT license, gitignore", "commit": "67f5fce" }
+      ]
+    }
+  ]
+}
