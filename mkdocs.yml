@@ -49,6 +49,8 @@ nav:
   - Concepts:
       - Canonical Events: concepts/events.md
       - Event Store: concepts/store.md
+      - Period Reports: concepts/reports.md
+      - Identity: concepts/identity.md
       - Privacy Model: concepts/privacy.md
   - Providers:
       - Claude Code: providers/claudecode.md
