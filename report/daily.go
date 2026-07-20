@@ -1,7 +1,7 @@
 package report
 
 import (
-	"sort"
+	"slices"
 	"time"
 
 	omnidevx "github.com/plexusone/omnidevx-core"
@@ -73,7 +73,7 @@ func (a *sourceAccum) coverage() SourceCoverage {
 	for m := range a.modes {
 		modes = append(modes, m)
 	}
-	sort.Slice(modes, func(i, j int) bool { return modes[i] < modes[j] })
+	slices.Sort(modes)
 	conf := a.minConfidence
 	if !a.hasConfidence {
 		conf = 1
