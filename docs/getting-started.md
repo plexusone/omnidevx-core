@@ -59,6 +59,24 @@ read, err := s.Read(ctx, store.Query{
 })
 ```
 
+Build a period report from what you read back:
+
+```go
+import "github.com/plexusone/omnidevx-core/report"
+
+r := report.Build(read.Events, report.Subject{PersonID: "person:jane"}, omnidevx.Period{
+	Start: weekStart, End: weekEnd,
+})
+fmt.Printf("%d sessions, %d commits, coverage %.0f%%\n",
+	int(r.Metrics.Combined["sessions"].Value),
+	int(r.Metrics.Combined["commits"].Value),
+	r.Quality.CoverageScore*100)
+```
+
+See [Period Reports](concepts/reports.md) for the combined-vs-bySource
+rules, and [Identity](concepts/identity.md) for resolving multiple
+accounts to one `personId` before passing it as `Subject`.
+
 For multi-collector composition (Claude Code + Codex + git + GitHub) see
 the batteries-included [`omnidevx`](https://github.com/plexusone/omnidevx)
 module and its `Engine`.
