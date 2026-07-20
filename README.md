@@ -40,13 +40,27 @@ model.
 
 - Root package `omnidevx` — canonical `Event` IR, `Collector` contract,
   periods, provenance.
+- `store` — JSONL event store (`~/.plexusone/omnidevx/data/`), idempotent
+  writes, period/product-scoped reads.
+- `identity` — resolves GitHub usernames, hashed git emails, and
+  device-scoped local accounts to a canonical `personId`.
+- `report` — builds `DeveloperPeriodReport` (`omnidevx.developer-period/v1`)
+  from stored events: daily summaries, weekly/monthly rollups, combined +
+  bySource metrics, coverage scoring.
 - `providers/claudecode` — thin provider reading Claude Code local session
   history (`~/.claude/projects/`). Stdlib only.
+- `providers/git` — thin provider emitting `devx.change.committed` from
+  local git history, with AI co-author attribution. Built on
+  [`grokify/gogit`](https://github.com/grokify/gogit).
+- `providers/genericotel` — OTLP/JSON metrics receiver for tools without a
+  dedicated provider.
 
 Thick providers with heavy dependencies live in vendor repos, e.g. the
 Codex CLI collector in
 [`omni-openai/omnidevx`](https://github.com/plexusone/omni-openai)
-(requires a SQLite driver).
+(requires a SQLite driver) and the GitHub contribution collector in
+[`omni-github/omnidevx`](https://github.com/plexusone/omni-github)
+(REST + GraphQL).
 
 ## Privacy
 
@@ -70,6 +84,23 @@ result, err := collector.Collect(ctx, omnidevx.CollectRequest{
 Provenance on every event records the collection mode (`history`, `otel`,
 `hooks`, `api`, `survey`) and a confidence score, so downstream metrics can
 distinguish observed values from historical reconstruction.
+
+### Period reports
+
+```go
+s, _ := store.Open(store.Options{})
+read, err := s.Read(ctx, store.Query{Period: period})
+
+r := report.Build(read.Events, report.Subject{PersonID: "person:jane"}, period)
+// r.Metrics.Combined["commits"], r.Metrics.BySource["git/git"]["commits"], ...
+// r.Sources, r.Quality.CoverageScore
+```
+
+`report.Build` is reproducible: the same stored events always produce the
+same report, and reprocessing with a changed metric formula never requires
+recollection. See [Period Reports](https://plexusone.github.io/omnidevx-core/concepts/reports/)
+for the combined-vs-bySource rules and [Identity](https://plexusone.github.io/omnidevx-core/concepts/identity/)
+for resolving multiple accounts to one person.
 
 ## Specifications
 
