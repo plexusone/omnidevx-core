@@ -44,10 +44,35 @@ keeps both views:
 ```
 
 A metric that doesn't combine safely (e.g. `tasks`) appears in `bySource`
-only. Every `Metric` carries a `Measurement` — `kind` (`observed` here;
-`estimated` metrics belong to a future analytics layer built on top of
-these reports), the method, and a confidence drawn from the least-confident
+only. Every `Metric` carries a `Measurement` — `kind` (`observed` or
+`estimated`), the method, and a confidence drawn from the least-confident
 event that contributed to it.
+
+## Cost estimation
+
+Events collected via history mode carry model name and token counts but not
+cost. The report layer backfills cost using a model pricing table when:
+
+1. The event has `model` and token attributes (`input_tokens`, `output_tokens`, etc.)
+2. The event lacks an explicit `cost_usd` attribute
+3. The model matches a known pricing entry (exact or prefix match)
+
+Backfilled cost appears in both `cost_usd` (total) and `cost_usd_estimated`
+(backfilled portion only). This lets consumers distinguish observed cost
+(from oTel mode) vs estimated cost (computed from tokens × pricing):
+
+```json
+{
+  "combined": {
+    "cost_usd": { "value": 125.50 },
+    "cost_usd_estimated": { "value": 85.00 }
+  }
+}
+```
+
+Here $85 was estimated from tokens, $40.50 was observed from oTel — totaling
+$125.50. The pricing table covers Claude models (opus, sonnet, haiku, fable)
+with prefix matching for version suffixes like `[1m]` or `-20251001`.
 
 ## Sources and data quality
 
