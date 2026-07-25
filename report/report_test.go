@@ -204,11 +204,13 @@ func TestBuildCostBackfillFromModelPricing(t *testing.T) {
 	day := time.Date(2026, 7, 6, 0, 0, 0, 0, time.UTC)
 
 	// Event with model and tokens but NO cost_usd — should be backfilled
+	// Opus 4.6 pricing: $5/1M input, $25/1M output
+	// 1M input = $5, 100k output = $2.50, total = $7.50
 	eventWithoutCost := historyEvent("m:1", omnidevx.EventMessageCompleted, day.Add(time.Hour), claudeSource, "s1",
 		map[string]any{
 			omnidevx.AttrModel:        "claude-opus-4-6",
-			omnidevx.AttrInputTokens:  1_000_000, // 1M input = $15
-			omnidevx.AttrOutputTokens: 100_000,   // 100k output = $7.50
+			omnidevx.AttrInputTokens:  1_000_000, // 1M input = $5
+			omnidevx.AttrOutputTokens: 100_000,   // 100k output = $2.50
 		})
 
 	// Event WITH explicit cost_usd — should NOT be backfilled
@@ -224,14 +226,24 @@ func TestBuildCostBackfillFromModelPricing(t *testing.T) {
 	period := omnidevx.Period{Start: day, End: day.Add(24 * time.Hour)}
 	report := Build(events, Subject{PersonID: "person:john"}, period)
 
-	// Expected cost_usd: backfilled ($15 + $7.50 = $22.50) + explicit ($10) = $32.50
-	if got := report.Metrics.Combined["cost_usd"].Value; got < 32.0 || got > 33.0 {
-		t.Errorf("cost_usd: got %v, want ~32.50 (backfilled + explicit)", got)
+	// Expected cost_usd: backfilled ($5 + $2.50 = $7.50) + explicit ($10) = $17.50
+	if got := report.Metrics.Combined["cost_usd"].Value; got < 17.0 || got > 18.0 {
+		t.Errorf("cost_usd: got %v, want ~17.50 (backfilled + explicit)", got)
 	}
 
-	// cost_usd_estimated should only contain the backfilled amount (~$22.50)
-	if got := report.Metrics.Combined["cost_usd_estimated"].Value; got < 22.0 || got > 23.0 {
-		t.Errorf("cost_usd_estimated: got %v, want ~22.50 (backfilled only)", got)
+	// cost_usd_estimated should only contain the backfilled amount (~$7.50)
+	if got := report.Metrics.Combined["cost_usd_estimated"].Value; got < 7.0 || got > 8.0 {
+		t.Errorf("cost_usd_estimated: got %v, want ~7.50 (backfilled only)", got)
+	}
+
+	// cost_usd_estimated should have KindEstimated
+	if got := report.Metrics.Combined["cost_usd_estimated"].Measurement.Kind; got != KindEstimated {
+		t.Errorf("cost_usd_estimated.Measurement.Kind: got %v, want %v", got, KindEstimated)
+	}
+
+	// cost_usd should have KindObserved
+	if got := report.Metrics.Combined["cost_usd"].Measurement.Kind; got != KindObserved {
+		t.Errorf("cost_usd.Measurement.Kind: got %v, want %v", got, KindObserved)
 	}
 }
 

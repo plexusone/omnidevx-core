@@ -10,11 +10,11 @@ func TestLookupPricing_ExactMatch(t *testing.T) {
 	if !ok {
 		t.Fatal("expected exact match for claude-opus-4-8")
 	}
-	if p.InputPerMillion != 15.00 {
-		t.Errorf("InputPerMillion = %v, want 15.00", p.InputPerMillion)
+	if p.InputPerMillion != 5.00 {
+		t.Errorf("InputPerMillion = %v, want 5.00", p.InputPerMillion)
 	}
-	if p.OutputPerMillion != 75.00 {
-		t.Errorf("OutputPerMillion = %v, want 75.00", p.OutputPerMillion)
+	if p.OutputPerMillion != 25.00 {
+		t.Errorf("OutputPerMillion = %v, want 25.00", p.OutputPerMillion)
 	}
 }
 
@@ -24,8 +24,8 @@ func TestLookupPricing_PrefixMatch(t *testing.T) {
 	if !ok {
 		t.Fatal("expected prefix match for claude-opus-4-8[1m]")
 	}
-	if p.InputPerMillion != 15.00 {
-		t.Errorf("InputPerMillion = %v, want 15.00", p.InputPerMillion)
+	if p.InputPerMillion != 5.00 {
+		t.Errorf("InputPerMillion = %v, want 5.00", p.InputPerMillion)
 	}
 
 	// Version suffix should also match
@@ -33,20 +33,49 @@ func TestLookupPricing_PrefixMatch(t *testing.T) {
 	if !ok {
 		t.Fatal("expected prefix match for claude-haiku-4-5-20251001")
 	}
-	if p2.InputPerMillion != 0.80 {
-		t.Errorf("InputPerMillion = %v, want 0.80", p2.InputPerMillion)
+	if p2.InputPerMillion != 1.00 {
+		t.Errorf("InputPerMillion = %v, want 1.00", p2.InputPerMillion)
 	}
 }
 
 func TestLookupPricing_LongestPrefixWins(t *testing.T) {
-	// If we had both "claude-opus-4" and "claude-opus-4-8", the longer one should match
-	p, ok := LookupPricing("claude-opus-4-8-extended")
+	// claude-opus-4-8 should match with -YYYYMMDD suffix
+	p, ok := LookupPricing("claude-opus-4-8-20260101")
 	if !ok {
-		t.Fatal("expected match for claude-opus-4-8-extended")
+		t.Fatal("expected match for claude-opus-4-8-20260101")
 	}
-	// Should match claude-opus-4-8, not a shorter prefix
-	if p.InputPerMillion != 15.00 {
-		t.Errorf("InputPerMillion = %v, want 15.00 (claude-opus-4-8)", p.InputPerMillion)
+	// Should match claude-opus-4-8 (Opus pricing)
+	if p.InputPerMillion != 5.00 {
+		t.Errorf("InputPerMillion = %v, want 5.00 (claude-opus-4-8)", p.InputPerMillion)
+	}
+
+	// claude-opus-4-7 exists with same pricing, verify it matches correctly
+	p2, ok := LookupPricing("claude-opus-4-7[1m]")
+	if !ok {
+		t.Fatal("expected match for claude-opus-4-7[1m]")
+	}
+	if p2.InputPerMillion != 5.00 {
+		t.Errorf("InputPerMillion = %v, want 5.00 (claude-opus-4-7)", p2.InputPerMillion)
+	}
+}
+
+func TestLookupPricing_BoundaryValidation(t *testing.T) {
+	// claude-opus-4-80 should NOT match claude-opus-4-8 (no valid boundary)
+	_, ok := LookupPricing("claude-opus-4-80")
+	if ok {
+		t.Error("claude-opus-4-80 should NOT match claude-opus-4-8")
+	}
+
+	// claude-opus-4-8x should NOT match
+	_, ok = LookupPricing("claude-opus-4-8x")
+	if ok {
+		t.Error("claude-opus-4-8x should NOT match claude-opus-4-8")
+	}
+
+	// claude-haiku-4-50 should NOT match claude-haiku-4-5
+	_, ok = LookupPricing("claude-haiku-4-50")
+	if ok {
+		t.Error("claude-haiku-4-50 should NOT match claude-haiku-4-5")
 	}
 }
 
@@ -110,12 +139,12 @@ func TestEstimateCost_RealisticSession(t *testing.T) {
 	// 50k input, 5k output, 45k cache read, 5k cache creation
 	cost := EstimateCost(p, 50_000, 5_000, 45_000, 5_000)
 
-	// Expected:
-	// input: 50k/1M * $15 = $0.75
-	// output: 5k/1M * $75 = $0.375
-	// cache_read: 45k/1M * $1.50 = $0.0675
-	// cache_creation: 5k/1M * $18.75 = $0.09375
-	expected := 0.75 + 0.375 + 0.0675 + 0.09375
+	// Expected (Opus 4.6 pricing: $5 input, $25 output, $0.50 cache read, $6.25 cache creation):
+	// input: 50k/1M * $5 = $0.25
+	// output: 5k/1M * $25 = $0.125
+	// cache_read: 45k/1M * $0.50 = $0.0225
+	// cache_creation: 5k/1M * $6.25 = $0.03125
+	expected := 0.25 + 0.125 + 0.0225 + 0.03125
 	if math.Abs(cost-expected) > 0.0001 {
 		t.Errorf("EstimateCost = %v, want %v", cost, expected)
 	}

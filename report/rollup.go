@@ -128,9 +128,13 @@ func buildMetricSet(combined map[string]float64, bySource map[string]map[string]
 		if !combinedMetricKeys[metric] {
 			continue
 		}
+		kind := KindObserved
+		if metric == "cost_usd_estimated" {
+			kind = KindEstimated
+		}
 		ms.Combined[metric] = Metric{
 			Value:       v,
-			Measurement: Measurement{Kind: KindObserved, Method: "sum", Confidence: overallConf},
+			Measurement: Measurement{Kind: kind, Method: "sum", Confidence: overallConf},
 		}
 	}
 	return ms

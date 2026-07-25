@@ -50,29 +50,33 @@ event that contributed to it.
 
 ## Cost estimation
 
-Events collected via history mode carry model name and token counts but not
-cost. The report layer backfills cost using a model pricing table when:
+The report layer backfills cost using a model pricing table when an event:
 
-1. The event has `model` and token attributes (`input_tokens`, `output_tokens`, etc.)
-2. The event lacks an explicit `cost_usd` attribute
-3. The model matches a known pricing entry (exact or prefix match)
+1. Lacks an explicit `cost_usd` attribute (or it is non-numeric)
+2. Has a `model` attribute matching a known pricing entry
+3. Has at least one valid, non-negative integer token count
+
+Token counts that are missing are treated as zero. Negative, fractional, or
+out-of-range values cause the backfill to be skipped for that event.
 
 Backfilled cost appears in both `cost_usd` (total) and `cost_usd_estimated`
-(backfilled portion only). This lets consumers distinguish observed cost
-(from oTel mode) vs estimated cost (computed from tokens × pricing):
+(backfilled portion only). The `cost_usd_estimated` metric carries
+`measurement.kind: "estimated"` while `cost_usd` remains `"observed"`:
 
 ```json
 {
   "combined": {
-    "cost_usd": { "value": 125.50 },
-    "cost_usd_estimated": { "value": 85.00 }
+    "cost_usd": { "value": 125.50, "measurement": {"kind": "observed"} },
+    "cost_usd_estimated": { "value": 85.00, "measurement": {"kind": "estimated"} }
   }
 }
 ```
 
-Here $85 was estimated from tokens, $40.50 was observed from oTel — totaling
-$125.50. The pricing table covers Claude models (opus, sonnet, haiku, fable)
-with prefix matching for version suffixes like `[1m]` or `-20251001`.
+Here $85 was estimated from tokens, $40.50 was observed — totaling $125.50.
+The pricing table covers Claude models (opus, sonnet, haiku, fable) with
+boundary-aware prefix matching: `claude-opus-4-8[1m]` and
+`claude-opus-4-8-20251001` both match `claude-opus-4-8`, but `claude-opus-4-80`
+does not.
 
 ## Sources and data quality
 
