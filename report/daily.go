@@ -25,6 +25,7 @@ var combinedMetricKeys = map[string]bool{
 	"reasoning_tokens":      true,
 	"total_tokens":          true,
 	"cost_usd":              true,
+	"cost_usd_estimated":    true, // subset of cost_usd backfilled from pricing table
 	"commits":               true,
 	"ai_assisted_commits":   true,
 	"insertions":            true,
@@ -202,6 +203,19 @@ func metricDeltas(e omnidevx.Event) map[string]float64 {
 	}
 	if cost, ok := numeric(e.Attributes[omnidevx.AttrCostUSD]); ok {
 		deltas["cost_usd"] += cost
+	} else if model, ok := e.Attributes[omnidevx.AttrModel].(string); ok && model != "" {
+		// Backfill cost from model pricing when AttrCostUSD is absent
+		if pricing, found := LookupPricing(model); found {
+			input, _ := numeric(e.Attributes[omnidevx.AttrInputTokens])
+			output, _ := numeric(e.Attributes[omnidevx.AttrOutputTokens])
+			cacheRead, _ := numeric(e.Attributes[omnidevx.AttrCacheReadTokens])
+			cacheCreation, _ := numeric(e.Attributes[omnidevx.AttrCacheCreationTokens])
+			est := EstimateCost(pricing, int64(input), int64(output), int64(cacheRead), int64(cacheCreation))
+			if est > 0 {
+				deltas["cost_usd"] += est
+				deltas["cost_usd_estimated"] += est
+			}
+		}
 	}
 	return deltas
 }
