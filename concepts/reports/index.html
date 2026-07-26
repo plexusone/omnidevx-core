@@ -514,6 +514,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#cost-estimation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cost estimation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#sources-and-data-quality" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -840,6 +851,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../releases/v0.3.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.3.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../releases/v0.2.0/" class="md-nav__link">
         
   
@@ -945,6 +984,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#cost-estimation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cost estimation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#sources-and-data-quality" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1020,14 +1070,37 @@ keeps both views:</p>
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">}</span>
 </code></pre></div>
 <p>A metric that doesn't combine safely (e.g. <code>tasks</code>) appears in <code>bySource</code>
-only. Every <code>Metric</code> carries a <code>Measurement</code> — <code>kind</code> (<code>observed</code> here;
-<code>estimated</code> metrics belong to a future analytics layer built on top of
-these reports), the method, and a confidence drawn from the least-confident
+only. Every <code>Metric</code> carries a <code>Measurement</code> — <code>kind</code> (<code>observed</code> or
+<code>estimated</code>), the method, and a confidence drawn from the least-confident
 event that contributed to it.</p>
+<h2 id="cost-estimation">Cost estimation<a class="headerlink" href="#cost-estimation" title="Permanent link">&para;</a></h2>
+<p>The report layer backfills cost using a model pricing table when an event:</p>
+<ol>
+<li>Lacks an explicit <code>cost_usd</code> attribute (or it is non-numeric)</li>
+<li>Has a <code>model</code> attribute matching a known pricing entry</li>
+<li>Has at least one valid, non-negative integer token count</li>
+</ol>
+<p>Token counts that are missing are treated as zero. Negative, fractional, or
+out-of-range values cause the backfill to be skipped for that event.</p>
+<p>Backfilled cost appears in both <code>cost_usd</code> (total) and <code>cost_usd_estimated</code>
+(backfilled portion only). The <code>cost_usd_estimated</code> metric carries
+<code>measurement.kind: "estimated"</code> while <code>cost_usd</code> remains <code>"observed"</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">&quot;combined&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="nt">&quot;cost_usd&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">125.50</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;measurement&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;observed&quot;</span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="nt">&quot;cost_usd_estimated&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">85.00</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;measurement&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;estimated&quot;</span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">}</span>
+</code></pre></div>
+<p>Here $85 was estimated from tokens, $40.50 was observed — totaling $125.50.
+The pricing table covers Claude models (opus, sonnet, haiku, fable) with
+boundary-aware prefix matching: <code>claude-opus-4-8[1m]</code> and
+<code>claude-opus-4-8-20251001</code> both match <code>claude-opus-4-8</code>, but <code>claude-opus-4-80</code>
+does not.</p>
 <h2 id="sources-and-data-quality">Sources and data quality<a class="headerlink" href="#sources-and-data-quality" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nx">r</span><span class="p">.</span><span class="nx">Sources</span><span class="w">  </span><span class="c1">// []SourceCoverage: which sources contributed, how many events,</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">           </span><span class="c1">// which collection modes, minimum confidence</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nx">r</span><span class="p">.</span><span class="nx">Quality</span><span class="w">  </span><span class="c1">// CoverageScore (active days / days in period) + Warnings</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nx">r</span><span class="p">.</span><span class="nx">Sources</span><span class="w">  </span><span class="c1">// []SourceCoverage: which sources contributed, how many events,</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">           </span><span class="c1">// which collection modes, minimum confidence</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nx">r</span><span class="p">.</span><span class="nx">Quality</span><span class="w">  </span><span class="c1">// CoverageScore (active days / days in period) + Warnings</span>
 </code></pre></div>
 <p>Period-total events (<code>devx.profile.snapshot</code>, <code>devx.contribution.snapshot</code>)
 describe an entire period rather than one day, so they are not decomposed
