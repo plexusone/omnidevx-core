@@ -44,10 +44,39 @@ keeps both views:
 ```
 
 A metric that doesn't combine safely (e.g. `tasks`) appears in `bySource`
-only. Every `Metric` carries a `Measurement` — `kind` (`observed` here;
-`estimated` metrics belong to a future analytics layer built on top of
-these reports), the method, and a confidence drawn from the least-confident
+only. Every `Metric` carries a `Measurement` — `kind` (`observed` or
+`estimated`), the method, and a confidence drawn from the least-confident
 event that contributed to it.
+
+## Cost estimation
+
+The report layer backfills cost using a model pricing table when an event:
+
+1. Lacks an explicit `cost_usd` attribute (or it is non-numeric)
+2. Has a `model` attribute matching a known pricing entry
+3. Has at least one valid, non-negative integer token count
+
+Token counts that are missing are treated as zero. Negative, fractional, or
+out-of-range values cause the backfill to be skipped for that event.
+
+Backfilled cost appears in both `cost_usd` (total) and `cost_usd_estimated`
+(backfilled portion only). The `cost_usd_estimated` metric carries
+`measurement.kind: "estimated"` while `cost_usd` remains `"observed"`:
+
+```json
+{
+  "combined": {
+    "cost_usd": { "value": 125.50, "measurement": {"kind": "observed"} },
+    "cost_usd_estimated": { "value": 85.00, "measurement": {"kind": "estimated"} }
+  }
+}
+```
+
+Here $85 was estimated from tokens, $40.50 was observed — totaling $125.50.
+The pricing table covers Claude models (opus, sonnet, haiku, fable) with
+boundary-aware prefix matching: `claude-opus-4-8[1m]` and
+`claude-opus-4-8-20251001` both match `claude-opus-4-8`, but `claude-opus-4-80`
+does not.
 
 ## Sources and data quality
 

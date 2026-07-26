@@ -118,7 +118,7 @@ func buildMetricSet(combined map[string]float64, bySource map[string]map[string]
 		for metric, v := range metrics {
 			out[metric] = Metric{
 				Value:       v,
-				Measurement: Measurement{Kind: KindObserved, Method: "sum", Confidence: conf},
+				Measurement: Measurement{Kind: metricKind(metric), Method: "sum", Confidence: conf},
 			}
 		}
 		ms.BySource[src] = out
@@ -130,10 +130,17 @@ func buildMetricSet(combined map[string]float64, bySource map[string]map[string]
 		}
 		ms.Combined[metric] = Metric{
 			Value:       v,
-			Measurement: Measurement{Kind: KindObserved, Method: "sum", Confidence: overallConf},
+			Measurement: Measurement{Kind: metricKind(metric), Method: "sum", Confidence: overallConf},
 		}
 	}
 	return ms
+}
+
+func metricKind(metric string) string {
+	if metric == "cost_usd_estimated" {
+		return KindEstimated
+	}
+	return KindObserved
 }
 
 func minConfidenceAcross(sources map[string]*sourceAccum) float64 {

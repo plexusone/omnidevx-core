@@ -25,6 +25,7 @@ var combinedMetricKeys = map[string]bool{
 	"reasoning_tokens":      true,
 	"total_tokens":          true,
 	"cost_usd":              true,
+	"cost_usd_estimated":    true, // subset of cost_usd backfilled from pricing table
 	"commits":               true,
 	"ai_assisted_commits":   true,
 	"insertions":            true,
@@ -202,6 +203,23 @@ func metricDeltas(e omnidevx.Event) map[string]float64 {
 	}
 	if cost, ok := numeric(e.Attributes[omnidevx.AttrCostUSD]); ok {
 		deltas["cost_usd"] += cost
+	} else if model, ok := e.Attributes[omnidevx.AttrModel].(string); ok && model != "" {
+		// Backfill cost from model pricing when AttrCostUSD is absent
+		if pricing, found := LookupPricing(model); found {
+			input, inputOK := validTokenCount(e.Attributes[omnidevx.AttrInputTokens])
+			output, outputOK := validTokenCount(e.Attributes[omnidevx.AttrOutputTokens])
+			cacheRead, cacheReadOK := validTokenCount(e.Attributes[omnidevx.AttrCacheReadTokens])
+			cacheCreation, cacheCreationOK := validTokenCount(e.Attributes[omnidevx.AttrCacheCreationTokens])
+			// Only backfill if at least one token count is valid and non-zero
+			if (inputOK || outputOK || cacheReadOK || cacheCreationOK) &&
+				(input > 0 || output > 0 || cacheRead > 0 || cacheCreation > 0) {
+				est := EstimateCost(pricing, input, output, cacheRead, cacheCreation)
+				if est > 0 {
+					deltas["cost_usd"] += est
+					deltas["cost_usd_estimated"] += est
+				}
+			}
+		}
 	}
 	return deltas
 }
@@ -240,6 +258,45 @@ func numeric(v any) (float64, bool) {
 		return float64(n), true
 	case int64:
 		return float64(n), true
+	default:
+		return 0, false
+	}
+}
+
+// validTokenCount extracts a non-negative integer token count from an attribute.
+// Returns 0, false for missing, negative, fractional, or out-of-range values.
+func validTokenCount(v any) (int64, bool) {
+	if v == nil {
+		return 0, false
+	}
+	switch n := v.(type) {
+	case int:
+		if n < 0 {
+			return 0, false
+		}
+		return int64(n), true
+	case int32:
+		if n < 0 {
+			return 0, false
+		}
+		return int64(n), true
+	case int64:
+		if n < 0 {
+			return 0, false
+		}
+		return n, true
+	case float64:
+		// Accept only non-negative whole numbers within int64 range
+		if n < 0 || n != float64(int64(n)) || n > float64(1<<53-1) {
+			return 0, false
+		}
+		return int64(n), true
+	case float32:
+		f := float64(n)
+		if f < 0 || f != float64(int64(f)) {
+			return 0, false
+		}
+		return int64(f), true
 	default:
 		return 0, false
 	}
