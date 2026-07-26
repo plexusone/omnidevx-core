@@ -276,3 +276,96 @@ func TestBuildCostBackfillSkipsUnknownModel(t *testing.T) {
 		t.Error("cost_usd_estimated should not be present for unknown model")
 	}
 }
+
+func TestBuildByModelAggregation(t *testing.T) {
+	day := time.Date(2026, 7, 6, 0, 0, 0, 0, time.UTC)
+
+	// Two events with different models
+	event1 := historyEvent("m:1", omnidevx.EventMessageCompleted, day.Add(time.Hour), claudeSource, "s1",
+		map[string]any{
+			omnidevx.AttrModel:        "claude-opus-4-6",
+			omnidevx.AttrInputTokens:  1_000_000,
+			omnidevx.AttrOutputTokens: 100_000,
+		})
+	event2 := historyEvent("m:2", omnidevx.EventMessageCompleted, day.Add(2*time.Hour), claudeSource, "s1",
+		map[string]any{
+			omnidevx.AttrModel:        "claude-haiku-4-5",
+			omnidevx.AttrInputTokens:  500_000,
+			omnidevx.AttrOutputTokens: 50_000,
+		})
+	// Third event same model as first
+	event3 := historyEvent("m:3", omnidevx.EventMessageCompleted, day.Add(3*time.Hour), claudeSource, "s1",
+		map[string]any{
+			omnidevx.AttrModel:        "claude-opus-4-6",
+			omnidevx.AttrInputTokens:  200_000,
+			omnidevx.AttrOutputTokens: 20_000,
+		})
+
+	events := []omnidevx.Event{event1, event2, event3}
+	period := omnidevx.Period{Start: day, End: day.Add(24 * time.Hour)}
+	report := Build(events, Subject{PersonID: "person:john"}, period)
+
+	// Should have ByModel populated
+	if report.Metrics.ByModel == nil {
+		t.Fatal("ByModel should not be nil")
+	}
+	if len(report.Metrics.ByModel) != 2 {
+		t.Errorf("ByModel should have 2 models, got %d", len(report.Metrics.ByModel))
+	}
+
+	// Check opus aggregation (event1 + event3)
+	opus := report.Metrics.ByModel["claude-opus-4-6"]
+	if opus == nil {
+		t.Fatal("ByModel should have claude-opus-4-6")
+	}
+	if got := opus["input_tokens"].Value; got != 1_200_000 {
+		t.Errorf("opus input_tokens: got %v, want 1200000", got)
+	}
+	if got := opus["messages"].Value; got != 2 {
+		t.Errorf("opus messages: got %v, want 2", got)
+	}
+
+	// Check haiku aggregation (event2 only)
+	haiku := report.Metrics.ByModel["claude-haiku-4-5"]
+	if haiku == nil {
+		t.Fatal("ByModel should have claude-haiku-4-5")
+	}
+	if got := haiku["input_tokens"].Value; got != 500_000 {
+		t.Errorf("haiku input_tokens: got %v, want 500000", got)
+	}
+	if got := haiku["messages"].Value; got != 1 {
+		t.Errorf("haiku messages: got %v, want 1", got)
+	}
+
+	// Combined should still have totals
+	if got := report.Metrics.Combined["input_tokens"].Value; got != 1_700_000 {
+		t.Errorf("combined input_tokens: got %v, want 1700000", got)
+	}
+}
+
+func TestBuildByModelExcludesNonModelMetrics(t *testing.T) {
+	day := time.Date(2026, 7, 6, 0, 0, 0, 0, time.UTC)
+
+	// Commit event should NOT appear in ByModel
+	commitEvent := historyEvent("c:1", omnidevx.EventChangeCommitted, day.Add(time.Hour), gitSource, "",
+		map[string]any{
+			omnidevx.AttrInsertions:   100,
+			omnidevx.AttrDeletions:    20,
+			omnidevx.AttrFilesChanged: 5,
+			omnidevx.AttrAIAssisted:   true,
+		})
+
+	events := []omnidevx.Event{commitEvent}
+	period := omnidevx.Period{Start: day, End: day.Add(24 * time.Hour)}
+	report := Build(events, Subject{PersonID: "person:john"}, period)
+
+	// ByModel should be empty (no model-scoped metrics from commits)
+	if len(report.Metrics.ByModel) != 0 {
+		t.Errorf("ByModel should be empty for non-model events, got %d entries", len(report.Metrics.ByModel))
+	}
+
+	// But Combined should still have the commit metrics
+	if got := report.Metrics.Combined["commits"].Value; got != 1 {
+		t.Errorf("commits: got %v, want 1", got)
+	}
+}
