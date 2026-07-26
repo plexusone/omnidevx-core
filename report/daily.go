@@ -94,7 +94,8 @@ type DailySummary struct {
 	Date       time.Time
 	Combined   map[string]float64
 	BySource   map[string]map[string]float64
-	Snapshots  int // period-total events seen but not summarized (see package doc)
+	ByModel    map[string]map[string]float64 // model name → metric → value
+	Snapshots  int                           // period-total events seen but not summarized (see package doc)
 	sessionIDs map[string]map[string]bool
 	sources    map[string]*sourceAccum
 }
@@ -113,6 +114,7 @@ func BuildDaily(events []omnidevx.Event, day time.Time) *DailySummary {
 		Date:       day,
 		Combined:   map[string]float64{},
 		BySource:   map[string]map[string]float64{},
+		ByModel:    map[string]map[string]float64{},
 		sessionIDs: map[string]map[string]bool{},
 		sources:    map[string]*sourceAccum{},
 	}
@@ -133,8 +135,13 @@ func BuildDaily(events []omnidevx.Event, day time.Time) *DailySummary {
 			continue
 		}
 
-		for metric, delta := range metricDeltas(e) {
+		deltas := metricDeltas(e)
+		model, _ := e.Attributes[omnidevx.AttrModel].(string)
+		for metric, delta := range deltas {
 			d.add(key, metric, delta)
+			if model != "" && isModelMetric(metric) {
+				d.addByModel(model, metric, delta)
+			}
 		}
 		if e.Context.SessionID != "" && isSessionScoped(e.Type) {
 			if d.sessionIDs[key] == nil {
@@ -152,6 +159,25 @@ func (d *DailySummary) add(srcKey, metric string, delta float64) {
 		d.BySource[srcKey] = map[string]float64{}
 	}
 	d.BySource[srcKey][metric] += delta
+}
+
+func (d *DailySummary) addByModel(model, metric string, delta float64) {
+	if d.ByModel[model] == nil {
+		d.ByModel[model] = map[string]float64{}
+	}
+	d.ByModel[model][metric] += delta
+}
+
+// isModelMetric returns true for metrics that should be aggregated by model.
+func isModelMetric(metric string) bool {
+	switch metric {
+	case "messages", "input_tokens", "output_tokens", "cache_read_tokens",
+		"cache_creation_tokens", "reasoning_tokens", "total_tokens",
+		"cost_usd", "cost_usd_estimated":
+		return true
+	default:
+		return false
+	}
 }
 
 func isSnapshotEvent(t omnidevx.EventType) bool {

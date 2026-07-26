@@ -35,11 +35,12 @@ type Metric struct {
 }
 
 // MetricSet holds the cross-source combined view alongside the per-source
-// breakdown. A metric that does not combine safely across sources (see
-// package doc) appears in BySource only.
+// and per-model breakdowns. A metric that does not combine safely across
+// sources (see package doc) appears in BySource only.
 type MetricSet struct {
 	Combined map[string]Metric            `json:"combined"`
 	BySource map[string]map[string]Metric `json:"bySource"`
+	ByModel  map[string]map[string]Metric `json:"byModel,omitempty"`
 }
 
 // SourceCoverage summarizes what one source contributed to a report.

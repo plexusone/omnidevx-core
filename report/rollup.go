@@ -36,6 +36,7 @@ func Build(events []omnidevx.Event, subject Subject, period omnidevx.Period) *De
 func Rollup(dailies []*DailySummary, subject Subject, period omnidevx.Period) *DeveloperPeriodReport {
 	combined := map[string]float64{}
 	bySource := map[string]map[string]float64{}
+	byModel := map[string]map[string]float64{}
 	sessionIDs := map[string]bool{}
 	sessionIDsBySource := map[string]map[string]bool{}
 	sources := map[string]*sourceAccum{}
@@ -58,6 +59,14 @@ func Rollup(dailies []*DailySummary, subject Subject, period omnidevx.Period) *D
 			}
 			for metric, v := range metrics {
 				bySource[src][metric] += v
+			}
+		}
+		for model, metrics := range d.ByModel {
+			if byModel[model] == nil {
+				byModel[model] = map[string]float64{}
+			}
+			for metric, v := range metrics {
+				byModel[model][metric] += v
 			}
 		}
 		for src, ids := range d.sessionIDs {
@@ -99,12 +108,12 @@ func Rollup(dailies []*DailySummary, subject Subject, period omnidevx.Period) *D
 		Subject:       subject,
 		Period:        period,
 		Sources:       coverageList(sources),
-		Metrics:       buildMetricSet(combined, bySource, sources),
+		Metrics:       buildMetricSet(combined, bySource, byModel, sources),
 		Quality:       quality(sources, dayCount, period, snapshotCount),
 	}
 }
 
-func buildMetricSet(combined map[string]float64, bySource map[string]map[string]float64, sources map[string]*sourceAccum) MetricSet {
+func buildMetricSet(combined map[string]float64, bySource, byModel map[string]map[string]float64, sources map[string]*sourceAccum) MetricSet {
 	ms := MetricSet{
 		Combined: map[string]Metric{},
 		BySource: map[string]map[string]Metric{},
@@ -131,6 +140,19 @@ func buildMetricSet(combined map[string]float64, bySource map[string]map[string]
 		ms.Combined[metric] = Metric{
 			Value:       v,
 			Measurement: Measurement{Kind: metricKind(metric), Method: "sum", Confidence: overallConf},
+		}
+	}
+	if len(byModel) > 0 {
+		ms.ByModel = map[string]map[string]Metric{}
+		for model, metrics := range byModel {
+			out := map[string]Metric{}
+			for metric, v := range metrics {
+				out[metric] = Metric{
+					Value:       v,
+					Measurement: Measurement{Kind: metricKind(metric), Method: "sum", Confidence: overallConf},
+				}
+			}
+			ms.ByModel[model] = out
 		}
 	}
 	return ms
