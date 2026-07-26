@@ -1,0 +1,50 @@
+{
+  "$schema": "pricing.schema.json",
+  "version": "2026-07",
+  "source": "https://platform.claude.com/docs/en/about-claude/pricing",
+  "note": "Cache pricing uses 5-minute TTL rates (1.25x input for write, 0.1x for read)",
+  "models": {
+    "claude-opus-4-8": {
+      "inputPerMillion": 5.00,
+      "outputPerMillion": 25.00,
+      "cacheReadPerMillion": 0.50,
+      "cacheCreationPerMillion": 6.25
+    },
+    "claude-opus-4-7": {
+      "inputPerMillion": 5.00,
+      "outputPerMillion": 25.00,
+      "cacheReadPerMillion": 0.50,
+      "cacheCreationPerMillion": 6.25
+    },
+    "claude-opus-4-6": {
+      "inputPerMillion": 5.00,
+      "outputPerMillion": 25.00,
+      "cacheReadPerMillion": 0.50,
+      "cacheCreationPerMillion": 6.25
+    },
+    "claude-opus-4-5": {
+      "inputPerMillion": 5.00,
+      "outputPerMillion": 25.00,
+      "cacheReadPerMillion": 0.50,
+      "cacheCreationPerMillion": 6.25
+    },
+    "claude-fable-5": {
+      "inputPerMillion": 10.00,
+      "outputPerMillion": 50.00,
+      "cacheReadPerMillion": 1.00,
+      "cacheCreationPerMillion": 12.50
+    },
+    "claude-sonnet-5": {
+      "inputPerMillion": 2.00,
+      "outputPerMillion": 10.00,
+      "cacheReadPerMillion": 0.20,
+      "cacheCreationPerMillion": 2.50
+    },
+    "claude-haiku-4-5": {
+      "inputPerMillion": 1.00,
+      "outputPerMillion": 5.00,
+      "cacheReadPerMillion": 0.10,
+      "cacheCreationPerMillion": 1.25
+    }
+  }
+}
