@@ -7,6 +7,34 @@
   "maintainers": ["grokify", "johncwang@gmail.com"],
   "releases": [
     {
+      "version": "v0.3.0",
+      "date": "2026-07-26",
+      "highlights": [
+        { "description": "Cost estimation: backfill `cost_usd` from model pricing table when events lack explicit cost data", "commit": "768600c" },
+        { "description": "Model-level aggregation: `ByModel` dimension in `MetricSet` groups tokens and cost by model name", "commit": "62a7540" }
+      ],
+      "added": [
+        { "description": "`report/pricing.go`: model pricing table with per-million-token rates for Claude models (opus, sonnet, haiku, fable); `LookupPricing` supports exact and longest-prefix matching for version suffixes like `[1m]` or `-20251001`", "commit": "81bb43c" },
+        { "description": "`report`: cost backfill when events have model + token attributes but lack `cost_usd`; estimated cost tracked in both `cost_usd` (total) and `cost_usd_estimated` (backfilled portion)", "commit": "768600c" },
+        { "description": "`report`: `ByModel` field in `DailySummary` and `MetricSet` groups token/cost metrics by model name; `isModelMetric` helper filters relevant metrics", "commit": "62a7540" }
+      ],
+      "fixed": [
+        { "description": "`report`: preserve `KindEstimated` in `BySource` metrics via shared `metricKind()` helper", "commit": "dcf83c7" },
+        { "description": "`report`: boundary validation in `LookupPricing` prevents `claude-opus-4-80` from matching `claude-opus-4-8`; only `[1m]` and `-YYYYMMDD` suffixes are valid", "commit": "cd4d745" },
+        { "description": "`report`: `validTokenCount` skips cost backfill for negative, fractional, or out-of-range token values", "commit": "cd4d745" }
+      ],
+      "documentation": [
+        { "description": "Cost estimation behavior documented in `docs/concepts/reports.md`: backfill triggers, `cost_usd` vs `cost_usd_estimated` metrics, boundary-aware prefix matching", "commit": "8dd629c" }
+      ],
+      "tests": [
+        { "description": "Cost backfill integration tests: backfill when absent, no backfill when set, skip unknown models", "commit": "0ed1f0d" },
+        { "description": "ByModel aggregation tests: model-level grouping, non-model events excluded", "commit": "b21ceca" }
+      ],
+      "dependencies": [
+        { "description": "`go mod`: update dependencies", "commit": "ed8876f" }
+      ]
+    },
+    {
       "version": "v0.2.0",
       "date": "2026-07-19",
       "highlights": [
