@@ -245,6 +245,12 @@ func TestBuildCostBackfillFromModelPricing(t *testing.T) {
 	if got := report.Metrics.Combined["cost_usd"].Measurement.Kind; got != KindObserved {
 		t.Errorf("cost_usd.Measurement.Kind: got %v, want %v", got, KindObserved)
 	}
+
+	// BySource should also have KindEstimated for cost_usd_estimated
+	srcKey := sourceKey(claudeSource)
+	if got := report.Metrics.BySource[srcKey]["cost_usd_estimated"].Measurement.Kind; got != KindEstimated {
+		t.Errorf("BySource cost_usd_estimated.Measurement.Kind: got %v, want %v", got, KindEstimated)
+	}
 }
 
 func TestBuildCostBackfillSkipsUnknownModel(t *testing.T) {
