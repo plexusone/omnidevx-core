@@ -1,7 +1,7 @@
 # AGENTS.md — omnidevx-core
 
 Repo-specific context for Claude Code sessions. Inherits from
-[plexusone/.github/CLAUDE.md](https://github.com/plexusone/.github/blob/main/CLAUDE.md).
+[plexusone/.github/AGENTS.md](https://github.com/plexusone/.github/blob/main/AGENTS.md).
 
 ## What This Repo Is
 
