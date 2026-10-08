@@ -10,25 +10,31 @@
       
       
       
+        <link rel="canonical" href="https://plexusone.github.io/omnidevx-core/guides/providers/genericotel/">
       
+      
+        <link rel="prev" href="../git/">
+      
+      
+        <link rel="next" href="../../../design/architecture/">
       
       
         
       
       
-      <link rel="icon" href="/omnidevx-core/assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>OmniDevX Core</title>
+        <title>OpenTelemetry - OmniDevX Core</title>
       
     
     
-      <link rel="stylesheet" href="/omnidevx-core/assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="/omnidevx-core/assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -49,7 +55,7 @@
     
       <link rel="stylesheet" href="https://plexusone.dev/css/plexusone-mkdocs.css">
     
-    <script>__md_scope=new URL("/omnidevx-core/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -73,6 +79,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#opentelemetry-receiver" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -90,7 +101,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/omnidevx-core/." title="OmniDevX Core" class="md-header__button md-logo" aria-label="OmniDevX Core" data-md-component="logo">
+    <a href="../../.." title="OmniDevX Core" class="md-header__button md-logo" aria-label="OmniDevX Core" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -110,7 +121,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              OpenTelemetry
             
           </span>
         </div>
@@ -227,7 +238,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/omnidevx-core/." title="OmniDevX Core" class="md-nav__button md-logo" aria-label="OmniDevX Core" data-md-component="logo">
+    <a href="../../.." title="OmniDevX Core" class="md-nav__button md-logo" aria-label="OmniDevX Core" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -257,7 +268,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/omnidevx-core/." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   
@@ -281,8 +292,10 @@
       
   
   
+    
   
   
+  
     
     
     
@@ -293,13 +306,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
           <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
@@ -320,7 +331,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -338,7 +349,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/omnidevx-core/guides/getting-started/" class="md-nav__link">
+      <a href="../../getting-started/" class="md-nav__link">
         
   
   
@@ -417,7 +428,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/omnidevx-core/guides/concepts/events/" class="md-nav__link">
+      <a href="../../concepts/events/" class="md-nav__link">
         
   
   
@@ -445,7 +456,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/omnidevx-core/guides/concepts/store/" class="md-nav__link">
+      <a href="../../concepts/store/" class="md-nav__link">
         
   
   
@@ -473,7 +484,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/omnidevx-core/guides/concepts/sessions/" class="md-nav__link">
+      <a href="../../concepts/sessions/" class="md-nav__link">
         
   
   
@@ -501,7 +512,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/omnidevx-core/guides/concepts/reports/" class="md-nav__link">
+      <a href="../../concepts/reports/" class="md-nav__link">
         
   
   
@@ -529,7 +540,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/omnidevx-core/guides/concepts/identity/" class="md-nav__link">
+      <a href="../../concepts/identity/" class="md-nav__link">
         
   
   
@@ -557,7 +568,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/omnidevx-core/guides/concepts/privacy/" class="md-nav__link">
+      <a href="../../concepts/privacy/" class="md-nav__link">
         
   
   
@@ -590,6 +601,8 @@
                 
   
   
+    
+  
   
   
     
@@ -599,13 +612,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
         
           
           <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
@@ -626,7 +637,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -644,7 +655,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/omnidevx-core/guides/providers/claudecode/" class="md-nav__link">
+      <a href="../claudecode/" class="md-nav__link">
         
   
   
@@ -672,7 +683,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/omnidevx-core/guides/providers/git/" class="md-nav__link">
+      <a href="../git/" class="md-nav__link">
         
   
   
@@ -697,10 +708,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="/omnidevx-core/guides/providers/genericotel/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenTelemetry
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -716,6 +754,59 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recognized-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recognized metrics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#claude-code-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claude Code configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -797,7 +888,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/omnidevx-core/design/architecture/" class="md-nav__link">
+      <a href="../../../design/architecture/" class="md-nav__link">
         
   
   
@@ -825,7 +916,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/omnidevx-core/design/maintaining/" class="md-nav__link">
+      <a href="../../../design/maintaining/" class="md-nav__link">
         
   
   
@@ -941,7 +1032,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/omnidevx-core/releases/v0.4.0/" class="md-nav__link">
+      <a href="../../../releases/v0.4.0/" class="md-nav__link">
         
   
   
@@ -969,7 +1060,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/omnidevx-core/releases/v0.3.0/" class="md-nav__link">
+      <a href="../../../releases/v0.3.0/" class="md-nav__link">
         
   
   
@@ -997,7 +1088,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/omnidevx-core/releases/v0.2.0/" class="md-nav__link">
+      <a href="../../../releases/v0.2.0/" class="md-nav__link">
         
   
   
@@ -1025,7 +1116,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/omnidevx-core/releases/v0.1.0/" class="md-nav__link">
+      <a href="../../../releases/v0.1.0/" class="md-nav__link">
         
   
   
@@ -1070,6 +1161,49 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recognized-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recognized metrics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#claude-code-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claude Code configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1082,8 +1216,86 @@
               
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+  
+  
+
+
+<h1 id="opentelemetry-receiver">OpenTelemetry Receiver<a class="headerlink" href="#opentelemetry-receiver" title="Permanent link">&para;</a></h1>
+<p><code>providers/genericotel</code> receives OTLP/HTTP <strong>JSON</strong> metrics from AI coding
+agents and writes <code>ai.usage.recorded</code> events (otel-mode provenance,
+confidence 1.0) directly to the event store. It exists because local
+session history is subject to retention — live capture is the durable
+path for token and cost data.</p>
+<p>Only the JSON encoding is supported: protobuf would pull heavy
+dependencies into core. Configure exporters with
+<code>OTEL_EXPORTER_OTLP_PROTOCOL=http/json</code>.</p>
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nx">r</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">genericotel</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">genericotel</span><span class="p">.</span><span class="nx">Options</span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="nx">Store</span><span class="p">:</span><span class="w">   </span><span class="nx">s</span><span class="p">,</span><span class="w"> </span><span class="c1">// *store.Store, required</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nx">Subject</span><span class="p">:</span><span class="w"> </span><span class="nx">omnidevx</span><span class="p">.</span><span class="nx">SubjectRef</span><span class="p">{</span><span class="nx">PersonID</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;person:jane&quot;</span><span class="p">},</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">})</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nx">http</span><span class="p">.</span><span class="nx">ListenAndServe</span><span class="p">(</span><span class="s">&quot;127.0.0.1:4318&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">r</span><span class="p">.</span><span class="nx">Handler</span><span class="p">())</span>
+</code></pre></div>
+<p><code>Handler</code> serves <code>POST /v1/metrics</code> (parsed) and <code>POST /v1/logs</code>
+(acknowledged and discarded — log bodies can contain prompt text and are
+never stored). For a ready-made daemon with launchd setup, a query API,
+and Grafana dashboards, see
+<a href="https://github.com/plexusone/omnidevx-otel"><code>omnidevx-otel</code></a>.</p>
+<h2 id="recognized-metrics">Recognized metrics<a class="headerlink" href="#recognized-metrics" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Mapped to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>claude_code.token.usage</code></td>
+<td>Token attributes by <code>type</code> datapoint attribute (<code>input</code>, <code>output</code>, <code>cacheRead</code>, <code>cacheCreation</code>)</td>
+</tr>
+<tr>
+<td><code>claude_code.cost.usage</code></td>
+<td><code>cost_usd</code></td>
+</tr>
+<tr>
+<td><code>codex.token.usage</code>, <code>codex.cost.usage</code></td>
+<td>Same mapping for Codex CLI</td>
+</tr>
+</tbody>
+</table>
+<p>Unrecognized metrics are ignored — the receiver is additive, not a
+general metrics database. Datapoint <code>model</code> and <code>session.id</code> attributes
+carry through; resource attributes like <code>user.email</code> do not.</p>
+<h2 id="claude-code-configuration">Claude Code configuration<a class="headerlink" href="#claude-code-configuration" title="Permanent link">&para;</a></h2>
+<p><code>~/.claude/settings.json</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">&quot;env&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">&quot;CLAUDE_CODE_ENABLE_TELEMETRY&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nt">&quot;OTEL_METRICS_EXPORTER&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;otlp&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="nt">&quot;OTEL_EXPORTER_OTLP_PROTOCOL&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http/json&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="nt">&quot;OTEL_EXPORTER_OTLP_ENDPOINT&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://127.0.0.1:4318&quot;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">}</span>
+</code></pre></div>
+<p>The SDK appends <code>/v1/metrics</code> to the endpoint; export interval defaults
+to 60s. Retried exports deduplicate via deterministic event IDs.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -1142,10 +1354,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "/omnidevx-core/", "features": ["navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "content.code.copy"], "search": "/omnidevx-core/assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="/omnidevx-core/assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>
