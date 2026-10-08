@@ -5,7 +5,10 @@
   "versioning": "semver",
   "commitConvention": "conventional",
   "maintainers": ["grokify", "johncwang@gmail.com"],
-  "unreleased": {
+  "releases": [
+    {
+      "version": "v0.4.0",
+      "date": "2026-10-07",
     "added": [
       {"description": "`sessions` package: a provider-neutral catalog of coding-agent sessions (`Session`, `Reader`, `Catalog`, `ResumeSpec`) that merges readers newest-first, resolves IDs by unique prefix, and keeps a failing reader from hiding the others", "commit": "1bf3bcc"},
       {"description": "Claude Code session reader that lists sessions with bounded start and end reads, tells typed prompts from tool results and injected context, and reports running state from live-process records verified against the process's start time", "commit": "691f66b"},
@@ -20,13 +23,13 @@
     ],
     "documentation": [
       {"description": "Sessions concept page, session reader section in the Claude Code provider guide, and a Privacy Model section stating that the session catalog reads titles and typed prompts and how that is kept apart from the event stream", "commit": "aa72514"},
-      {"description": "Point the org guidelines reference at AGENTS.md", "commit": "b291051"}
+      {"description": "Point the org guidelines reference at AGENTS.md", "commit": "b291051"},
+      {"description": "Move user guides into `docs/guides` and add `docs/design` with architecture and maintaining pages; guide URLs move from `/concepts/` and `/providers/` to `/guides/concepts/` and `/guides/providers/`", "commit": "aeac83c"}
     ],
     "dependencies": [
       {"description": "Bumped `github.com/grokify/gogit` from 0.11.0 to 0.13.1", "commit": "a563cdb"}
     ]
-  },
-  "releases": [
+    },
     {
       "version": "v0.3.0",
       "date": "2026-07-26",
