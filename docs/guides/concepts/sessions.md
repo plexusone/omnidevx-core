@@ -60,7 +60,9 @@ agent's tool calls instead of the person.
 
 The Claude reader trusts a live-process record only if the process is alive
 and started when the record says it did. A record left behind by a crash or a
-reboot can name a process ID that has since been reused.
+reboot can name a process ID that has since been reused. On Windows the
+reader cannot read a process's start time, so it never reports a session as
+running; check for an open Claude Code window before resuming.
 
 ## Resuming
 

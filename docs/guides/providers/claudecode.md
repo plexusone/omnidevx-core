@@ -62,6 +62,9 @@ sessions, diags, err := r.List(ctx, sessions.ListOptions{})
 - **Running state.** `~/.claude/sessions/<pid>.json` records a live process.
   A session is `running` only if that process exists and started when the
   record says it did, so a stale record that names a reused process ID is
-  ignored.
+  ignored. On Windows the start time cannot be read using only the standard
+  library, so sessions are never reported as `running` there; they show as
+  `resumable`, and you should check that Claude Code is not already open in
+  that session before resuming it.
 - **Resume.** `claude --resume <id>` from the session's original directory,
   because Claude Code finds a session by the project directory it started in.
