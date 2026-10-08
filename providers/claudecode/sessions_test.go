@@ -309,6 +309,11 @@ func TestSessionReaderUnreadableFileBecomesDiagnostic(t *testing.T) {
 		t.Fatal(err)
 	}
 	t.Cleanup(func() { _ = os.Chmod(path, 0o600) }) //nolint:errcheck // best-effort cleanup
+	// chmod cannot make a file unreadable on Windows, or for root.
+	if f, err := os.Open(path); err == nil {
+		_ = f.Close() //nolint:errcheck // read-only probe
+		t.Skip("file permissions do not restrict reads here")
+	}
 
 	got, diags, err := newReader(t, root).List(context.Background(), sessions.ListOptions{})
 	if err != nil {
