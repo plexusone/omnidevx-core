@@ -3,6 +3,7 @@ package sessions
 import (
 	"context"
 	"errors"
+	"fmt"
 	"strings"
 	"testing"
 	"time"
@@ -121,5 +122,26 @@ func TestTruncate(t *testing.T) {
 	}
 	if got := Truncate("abcdefghij", 5); got != "abcd…" {
 		t.Fatalf("got %q", got)
+	}
+}
+
+func TestResolveAmbiguousListIsCapped(t *testing.T) {
+	var all []Session
+	for i := 0; i < 12; i++ {
+		all = append(all, Session{Harness: HarnessCodex, ID: fmt.Sprintf("0199%04d-aaaa", i), Title: "a very long session title that would otherwise run across the whole terminal width"})
+	}
+	_, err := Resolve(all, "0199")
+	if err == nil {
+		t.Fatal("expected an ambiguity error")
+	}
+	msg := err.Error()
+	if !strings.Contains(msg, "(12 matches)") {
+		t.Errorf("error should state the match count: %s", msg)
+	}
+	if got := strings.Count(msg, "codex:0199"); got != maxAmbiguousShown {
+		t.Errorf("listed %d candidates, want %d: %s", got, maxAmbiguousShown, msg)
+	}
+	if !strings.Contains(msg, "and 4 more") {
+		t.Errorf("error should say how many were left out: %s", msg)
 	}
 }

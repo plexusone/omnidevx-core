@@ -52,44 +52,70 @@ const (
 // Session is one resumable harness session. (Harness, ID) is its identity;
 // everything else describes it.
 type Session struct {
+	// Harness is the coding-agent tool that owns the session: claude-code or codex.
 	Harness Harness `json:"harness"`
-	ID      string  `json:"id"`
+	// ID is the harness's own session identifier, durable across process exit and reboot.
+	ID string `json:"id"`
 
-	CWD       string `json:"cwd"`
+	// CWD is the directory the session was started in. Resuming must happen from here.
+	CWD string `json:"cwd"`
+	// GitBranch is the git branch recorded for the session, when the harness records one.
 	GitBranch string `json:"gitBranch,omitempty"`
+	// GitOrigin is the normalized origin remote, such as github.com/org/repo, when recorded.
 	GitOrigin string `json:"gitOrigin,omitempty"`
 
-	CreatedAt           time.Time `json:"createdAt"`
-	LastActivityAt      time.Time `json:"lastActivityAt"`
+	// CreatedAt is when the session started.
+	CreatedAt time.Time `json:"createdAt"`
+	// LastActivityAt is the last activity of any kind, including agent work.
+	LastActivityAt time.Time `json:"lastActivityAt"`
+	// LastHumanActivityAt is the last prompt a person typed. It is absent when none was found.
+	// A large gap after LastActivityAt means the agent kept working unattended.
 	LastHumanActivityAt time.Time `json:"lastHumanActivityAt,omitzero"`
 
-	Title         string   `json:"title,omitempty"`
-	TitleSource   string   `json:"titleSource,omitempty"`
+	// Title names the session. It comes from the harness when it records one.
+	Title string `json:"title,omitempty"`
+	// TitleSource says where Title came from: harness, first-prompt, or cwd.
+	TitleSource string `json:"titleSource,omitempty"`
+	// RecentPrompts are the latest prompts a person typed, truncated. They are omitted when
+	// prompt content is suppressed.
 	RecentPrompts []Prompt `json:"recentPrompts,omitempty"`
 
-	Archived bool     `json:"archived,omitempty"`
-	State    State    `json:"state"`
-	Runtime  *Runtime `json:"runtime,omitempty"`
+	// Archived is set when the harness marks the session archived.
+	Archived bool `json:"archived,omitempty"`
+	// State is running, resumable, or unknown.
+	State State `json:"state"`
+	// Runtime describes the live process when State is running.
+	Runtime *Runtime `json:"runtime,omitempty"`
 
+	// Resume says how to resume the session.
 	Resume ResumeSpec `json:"resume"`
+
+	// Evidence is what the session touched. It is populated only when requested, because it
+	// needs a full transcript parse.
+	Evidence *Evidence `json:"evidence,omitempty"`
 }
 
 // Prompt is a human-authored message, truncated for display.
 type Prompt struct {
-	At   time.Time `json:"at"`
-	Text string    `json:"text"`
+	// At is when the prompt was sent.
+	At time.Time `json:"at"`
+	// Text is the prompt text, truncated.
+	Text string `json:"text"`
 }
 
 // Runtime describes the live process attached to a running session.
 type Runtime struct {
+	// PID is the operating-system process ID of the harness.
 	PID int `json:"pid,omitempty"`
 }
 
 // ResumeSpec says how to resume a session. Readers return it; callers
 // decide how to run it (replace the process, new terminal, tmux).
 type ResumeSpec struct {
+	// Argv is the command and arguments that resume the session.
 	Argv []string `json:"argv"`
-	Dir  string   `json:"dir"`
+	// Dir is the directory to run the command from.
+	Dir string `json:"dir"`
 }
 
 // Command renders the spec as a shell command line for display.
@@ -169,6 +195,9 @@ func (c *Catalog) List(ctx context.Context, opts ListOptions) ([]Session, []omni
 	return all, diags, nil
 }
 
+// maxAmbiguousShown caps how many candidates an ambiguous-ID error lists.
+const maxAmbiguousShown = 8
+
 // Resolve finds one session by full ID or unique prefix of at least four
 // characters. A "harness:" qualifier (e.g. "codex:0199") narrows the search.
 // An ambiguous prefix returns an error listing the candidates.
@@ -199,10 +228,14 @@ func Resolve(all []Session, query string) (*Session, error) {
 		return &all[matches[0]], nil
 	}
 	var b strings.Builder
-	for _, i := range matches {
-		fmt.Fprintf(&b, "\n  %s:%s  %s", all[i].Harness, all[i].ID, all[i].Title)
+	for n, i := range matches {
+		if n == maxAmbiguousShown {
+			fmt.Fprintf(&b, "\n  … and %d more; use a longer prefix", len(matches)-n)
+			break
+		}
+		fmt.Fprintf(&b, "\n  %s:%s  %s", all[i].Harness, all[i].ID, Truncate(all[i].Title, 70))
 	}
-	return nil, fmt.Errorf("%q is ambiguous; matches:%s", query, b.String())
+	return nil, fmt.Errorf("%q is ambiguous (%d matches):%s", query, len(matches), b.String())
 }
 
 // Truncate shortens s to at most n runes, collapsing whitespace, for
