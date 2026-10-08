@@ -98,8 +98,8 @@ r := report.Build(read.Events, report.Subject{PersonID: "person:jane"}, period)
 
 `report.Build` is reproducible: the same stored events always produce the
 same report, and reprocessing with a changed metric formula never requires
-recollection. See [Period Reports](https://plexusone.github.io/omnidevx-core/concepts/reports/)
-for the combined-vs-bySource rules and [Identity](https://plexusone.github.io/omnidevx-core/concepts/identity/)
+recollection. See [Period Reports](https://plexusone.github.io/omnidevx-core/guides/concepts/reports/)
+for the combined-vs-bySource rules and [Identity](https://plexusone.github.io/omnidevx-core/guides/concepts/identity/)
 for resolving multiple accounts to one person.
 
 ## Specifications

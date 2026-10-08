@@ -38,8 +38,10 @@ go get github.com/plexusone/omnidevx-core
 
 1. **Collectors normalize; they never compute metrics.** Frameworks are
    downstream projections over canonical events.
-2. **Metadata only.** Prompt text, model responses, and file contents are
-   never captured. See [Privacy Model](concepts/privacy.md).
+2. **Metadata only, for events.** Prompt text, model responses, and file
+   contents are never captured in events. The [session catalog](guides/concepts/sessions.md)
+   is the one exception, kept apart from the event stream. See
+   [Privacy Model](guides/concepts/privacy.md).
 3. **Provenance on everything.** Every event records how it was collected
    (`history`, `otel`, `hooks`, `api`, `survey`) and with what confidence.
 4. **Deterministic IDs.** Re-importing the same history deduplicates

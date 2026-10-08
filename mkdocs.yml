@@ -45,18 +45,22 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - Getting Started: getting-started.md
-  - Concepts:
-      - Canonical Events: concepts/events.md
-      - Event Store: concepts/store.md
-      - Sessions: concepts/sessions.md
-      - Period Reports: concepts/reports.md
-      - Identity: concepts/identity.md
-      - Privacy Model: concepts/privacy.md
-  - Providers:
-      - Claude Code: providers/claudecode.md
-      - Git: providers/git.md
-      - OpenTelemetry: providers/genericotel.md
+  - Guides:
+      - Getting Started: guides/getting-started.md
+      - Concepts:
+          - Canonical Events: guides/concepts/events.md
+          - Event Store: guides/concepts/store.md
+          - Sessions: guides/concepts/sessions.md
+          - Period Reports: guides/concepts/reports.md
+          - Identity: guides/concepts/identity.md
+          - Privacy Model: guides/concepts/privacy.md
+      - Providers:
+          - Claude Code: guides/providers/claudecode.md
+          - Git: guides/providers/git.md
+          - OpenTelemetry: guides/providers/genericotel.md
+  - Design:
+      - Architecture: design/architecture.md
+      - Maintaining: design/maintaining.md
   - API Reference: https://pkg.go.dev/github.com/plexusone/omnidevx-core
   - Releases:
       - v0.3.0: releases/v0.3.0.md
