@@ -3,6 +3,7 @@ package sessions
 import (
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"testing"
 )
@@ -30,19 +31,20 @@ func TestLoadConfigMissingFileIsNotAnError(t *testing.T) {
 }
 
 func TestLoadConfigReadsSettings(t *testing.T) {
+	home, work := t.TempDir(), t.TempDir()
 	path := writeConfig(t, `{
-		"workspaceRoots": ["~/go/src", "/work/repos"],
+		"workspaceRoots": ["~/go/src", `+strconv.Quote(work)+`],
 		"workRefRules": [{"name": "ticket", "pattern": "\\bTICKET-\\d+\\b"}]
 	}`)
 	c, err := LoadConfig(path)
 	if err != nil {
 		t.Fatal(err)
 	}
-	roots, err := c.ExpandedRoots("/Users/example")
+	roots, err := c.ExpandedRoots(home)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if strings.Join(roots, ",") != "/Users/example/go/src,/work/repos" {
+	if want := filepath.Join(home, "go", "src") + "," + work; strings.Join(roots, ",") != want {
 		t.Fatalf("roots = %v", roots)
 	}
 	ext, err := c.Extractor()
@@ -83,12 +85,13 @@ func TestLoadConfigRejectsBadFiles(t *testing.T) {
 
 func TestExpandedRootsRejectsRelativePaths(t *testing.T) {
 	c := Config{WorkspaceRoots: []string{"relative/dir"}}
-	if _, err := c.ExpandedRoots("/Users/example"); err == nil || !strings.Contains(err.Error(), "absolute") {
+	home := t.TempDir()
+	if _, err := c.ExpandedRoots(home); err == nil || !strings.Contains(err.Error(), "absolute") {
 		t.Fatalf("err = %v", err)
 	}
-	c = Config{WorkspaceRoots: []string{"~", "/a/b/../c"}}
-	roots, err := c.ExpandedRoots("/Users/example")
-	if err != nil || roots[0] != "/Users/example" || roots[1] != "/a/c" {
+	c = Config{WorkspaceRoots: []string{"~", filepath.Join(home, "a", "b", "..", "c")}}
+	roots, err := c.ExpandedRoots(home)
+	if err != nil || roots[0] != home || roots[1] != filepath.Join(home, "a", "c") {
 		t.Fatalf("roots = %v, err = %v", roots, err)
 	}
 }
