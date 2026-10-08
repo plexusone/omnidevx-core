@@ -24,7 +24,9 @@ Not to be confused with:
 | `identity` | Resolves GitHub usernames, git emails, device accounts → `personId` |
 | `report` | Builds `DeveloperPeriodReport` from events: daily summaries, rollups |
 | `report/pricing.go` | Model pricing table for cost estimation (embedded from `pricing.json`) |
-| `providers/claudecode` | Claude Code session history collector (stdlib only) |
+| `sessions` | Session catalog: `Session`, `Reader`, `Catalog`, `Evidence`, repository index, work references, config. Reads titles and prompts (see Privacy Model) |
+| `sessions/schema` | Generated, embedded JSON Schema for `sessions.Session` |
+| `providers/claudecode` | Claude Code session history collector and session reader (stdlib only) |
 | `providers/git` | Git commit collector with AI co-author attribution |
 | `providers/genericotel` | OTLP/JSON metrics receiver for tools without dedicated providers |
 
@@ -91,6 +93,16 @@ golangci-lint run
 **Updating model pricing:**
 Edit `report/pricing.json` (embedded via `//go:embed`). Run tests to verify.
 
+**Updating the session schema:**
+After changing a type in `sessions`, regenerate the embedded schema and commit it
+with the change. Tests fail if the schema and the Go structs disagree.
+```bash
+go install github.com/grokify/schemakit/cmd/schemakit@latest   # v0.6.0 or later
+go generate ./sessions/schema
+```
+Every exported `sessions` field needs a doc comment; they become the schema's
+property descriptions.
+
 **Adding a new provider:**
 1. Create `providers/<name>/` with `collector.go` implementing `omnidevx.Collector`
 2. Add tests with fabricated fixtures (no real data)
@@ -126,9 +138,17 @@ handled automatically.
 
 ## Privacy Model
 
-**Metadata only.** No prompt text, responses, or file contents are ever
-captured. This is enforced structurally (Event type has no content fields)
-and by tests that fail if content-like attribute keys are added.
+**Metadata only, for events.** No prompt text, responses, or file contents are
+ever captured in events. This is enforced structurally (Event type has no
+content fields) and by tests that fail if content-like attribute keys are added.
+
+**The one exception is the `sessions` package**, which reads titles and the
+prompts a person typed so sessions can be recognized and resumed. It is kept
+separate from the event stream: its readers never produce `Event` values,
+nothing they return is written to the event store, they make no network
+calls, and `NoContent` suppresses prompt-derived fields. Do not add content
+fields to `Event`, and do not route session data into the store. See
+`docs/concepts/privacy.md`.
 
 ## Data Paths
 
@@ -136,7 +156,9 @@ and by tests that fail if content-like attribute keys are added.
 |------|----------|
 | `~/.plexusone/omnidevx/data/` | JSONL event store (daily files per source) |
 | `~/.plexusone/omnidevx/reports/` | Generated dashboards (weekly/monthly/quarterly) |
+| `~/.plexusone/omnidevx/config.json` | Optional session-catalog settings: workspace roots, work-reference rules (`sessions.LoadConfig`) |
 | `~/.claude/projects/` | Claude Code session history (read by claudecode provider) |
+| `~/.claude/sessions/` | Claude Code live-process records (read by the claudecode session reader) |
 
 ## Changelog Workflow
 

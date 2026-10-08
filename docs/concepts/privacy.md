@@ -10,6 +10,11 @@ identifiers — never:
 - commit subjects or bodies (hashes and attribution only)
 - OTel log/event bodies (`POST /v1/logs` is acknowledged and discarded)
 
+This applies to everything that produces events: collectors, the event
+store, and reports. The one place content is read is the
+[session catalog](sessions.md), which is separate from the event stream
+and described [below](#session-catalog-the-one-place-content-is-read).
+
 ## Enforcement
 
 The rule is structural, not aspirational:
@@ -21,6 +26,34 @@ The rule is structural, not aspirational:
   in events.
 - Resource attributes such as `user.email` from OTel exporters are read
   for routing but never stored on events.
+
+## Session catalog: the one place content is read
+
+The `sessions` package lists coding-agent sessions so a developer can tell
+them apart and resume the right one. That needs titles and the prompts the
+developer typed, so its readers do decode them. The guarantees are narrower
+than "metadata only" and are kept structurally separate from the event
+stream:
+
+- **Never in events.** Session readers do not produce `Event` values, and
+  nothing they return is written to the event store.
+- **On demand and in memory.** Titles and prompts are read when a command
+  asks, held in memory, and printed. They are not cached on disk by
+  OmniDevX.
+- **Local only.** Readers make no network calls and read only the harness's
+  own local files.
+- **Suppressible.** `NoContent` removes titles derived from prompts and all
+  recent prompts from a listing, falling back to the directory name.
+- **Evidence is structural by design.** The evidence model, which the
+  readers do not populate yet, records what a session touched (repositories,
+  files, commits) from the harness's structured tool records and from git,
+  not from text the model wrote. Work-reference IDs are matched in the
+  prompts the developer typed, branch names, commit messages, and paths.
+- **Prompt text is truncated.** Prompts kept on a session are cut to a short
+  length for display.
+
+The event-store tests that reject content-like attribute keys still apply
+unchanged, because the catalog does not use the event types.
 
 ## Local by default
 
