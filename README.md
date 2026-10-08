@@ -48,7 +48,8 @@ model.
   from stored events: daily summaries, weekly/monthly rollups, combined +
   bySource metrics, coverage scoring.
 - `providers/claudecode` — thin provider reading Claude Code local session
-  history (`~/.claude/projects/`). Stdlib only.
+  history (`~/.claude/projects/`). Standard library plus
+  [`grokify/oscompat`](https://github.com/grokify/oscompat) for process checks.
 - `providers/git` — thin provider emitting `devx.change.committed` from
   local git history, with AI co-author attribution. Built on
   [`grokify/gogit`](https://github.com/grokify/gogit).

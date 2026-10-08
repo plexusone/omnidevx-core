@@ -36,7 +36,8 @@ prompts, or paths from a personal machine; use placeholders such as
 ## Dependencies
 
 The module is standard-library only apart from `gogit`, which the git
-provider uses. Keep it that way: an integration that needs a database driver
+provider uses, and `oscompat`, which supplies portable process checks and has
+no dependencies of its own. Keep it that way: an integration that needs a database driver
 or a vendor API client belongs in its own repository. Verify the latest
 version of any dependency before adding it.
 

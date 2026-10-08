@@ -54,7 +54,7 @@ See the [Privacy Model](../guides/concepts/privacy.md).
 | `report` | Daily summaries, period rollups, model pricing and cost estimation | root |
 | `sessions` | `Session`, `Reader`, `Catalog`, `Evidence`, repository index, work references, config | root |
 | `sessions/schema` | Generated, embedded JSON Schema for `sessions.Session` | nothing |
-| `providers/claudecode` | Claude Code event collector and session reader | root, `sessions` |
+| `providers/claudecode` | Claude Code event collector and session reader | root, `sessions`, `oscompat` |
 | `providers/git` | Git commit collector with AI co-author attribution | root, `gogit` |
 | `providers/genericotel` | OTLP/JSON metrics receiver | root, `store` |
 
@@ -62,9 +62,11 @@ The rules this graph encodes:
 
 - **The root package depends on nothing.** Everything else may import it;
   it imports no sibling package.
-- **`gogit` is the only third-party dependency** of the module, used by the
-  git provider. Everything else is the standard library. Integrations that
-  need a driver or an API client belong in their own repository, not here.
+- **Two small third-party dependencies, no more.** `gogit` serves the git
+  provider, and `oscompat` gives the Claude session reader a portable process
+  start-time check. `oscompat` itself uses only the standard library.
+  Everything else is the standard library. Integrations that need a driver or
+  an API client belong in their own repository, not here.
 - **Providers do not depend on each other.** They depend on the root, and
   the two that need more depend on exactly one more package (`sessions` for
   the session reader, `store` for the receiver).

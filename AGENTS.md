@@ -26,7 +26,7 @@ Not to be confused with:
 | `report/pricing.go` | Model pricing table for cost estimation (embedded from `pricing.json`) |
 | `sessions` | Session catalog: `Session`, `Reader`, `Catalog`, `Evidence`, repository index, work references, config. Reads titles and prompts (see Privacy Model) |
 | `sessions/schema` | Generated, embedded JSON Schema for `sessions.Session` |
-| `providers/claudecode` | Claude Code session history collector and session reader (stdlib only) |
+| `providers/claudecode` | Claude Code session history collector and session reader (standard library and `oscompat`) |
 | `providers/git` | Git commit collector with AI co-author attribution |
 | `providers/genericotel` | OTLP/JSON metrics receiver for tools without dedicated providers |
 
@@ -194,6 +194,7 @@ schangelog generate CHANGELOG.json -o CHANGELOG.md
 | [omni-openai](https://github.com/plexusone/omni-openai) | Codex CLI collector |
 | [omni-github](https://github.com/plexusone/omni-github) | GitHub contribution collector |
 | [gogit](https://github.com/grokify/gogit) | Git library used by providers/git |
+| [oscompat](https://github.com/grokify/oscompat) | Portable process liveness and start time used by providers/claudecode |
 | [uiforge](https://github.com/grokify/uiforge) | Dashboard IR used by devfolio exports |
 
 ## Documentation

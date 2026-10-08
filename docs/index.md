@@ -20,7 +20,7 @@ substrate.
 | `store` | Local JSONL event store: idempotent, inspectable, reprocessable |
 | `identity` | Resolve GitHub usernames, hashed git emails, and device-scoped local accounts to a canonical personId |
 | `report` | Build `DeveloperPeriodReport` from stored events: daily summaries, rollups, combined + bySource metrics |
-| `providers/claudecode` | Claude Code session-history importer (stdlib only) |
+| `providers/claudecode` | Claude Code session-history importer (standard library and `oscompat`) |
 | `providers/git` | Git commit collector with AI co-author attribution |
 | `providers/genericotel` | OTLP/JSON receiver for live token/cost metrics |
 
