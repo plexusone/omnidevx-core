@@ -6,7 +6,7 @@ configured repository roots, built on
 
 ```go
 c, err := git.New(git.Options{
-	Roots:    []string{"/Users/jane/go/src/github.com/myorg"},
+	Roots:    []string{"/Users/example/go/src/github.com/myorg"},
 	MaxDepth: 1,    // directory levels below each root (default 3)
 	NoMerges: false,
 })
