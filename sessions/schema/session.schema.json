@@ -1,0 +1,325 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/plexusone/omnidevx-core/main/sessions/schema/session.schema.json",
+  "$ref": "#/$defs/Session",
+  "$defs": {
+    "CommitRef": {
+      "properties": {
+        "sha": {
+          "type": "string",
+          "description": "SHA is the commit hash as the session saw it, abbreviated or full."
+        },
+        "repo": {
+          "type": "string",
+          "description": "Repo is the root of the repository that holds the commit, when it could be resolved."
+        },
+        "relation": {
+          "type": "string",
+          "description": "Relation is created or referenced."
+        },
+        "subject": {
+          "type": "string",
+          "description": "Subject is the commit's first message line, when it could be read from git."
+        },
+        "at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "At is when the session created or referenced the commit."
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "sha",
+        "relation"
+      ],
+      "description": "CommitRef is a commit a session created or referenced."
+    },
+    "Evidence": {
+      "properties": {
+        "repos": {
+          "items": {
+            "$ref": "#/$defs/RepoActivity"
+          },
+          "type": "array",
+          "description": "Repos are the repositories the session worked in, read, modified, or mentioned."
+        },
+        "files": {
+          "items": {
+            "$ref": "#/$defs/FileActivity"
+          },
+          "type": "array",
+          "description": "Files are the files the session read or modified through the harness's own tools."
+        },
+        "commits": {
+          "items": {
+            "$ref": "#/$defs/CommitRef"
+          },
+          "type": "array",
+          "description": "Commits are the commits the session created or referenced."
+        },
+        "workRefs": {
+          "items": {
+            "$ref": "#/$defs/WorkRef"
+          },
+          "type": "array",
+          "description": "WorkRefs are work-tracking identifiers, such as initiative and roadmap-item IDs,\nfound in the session."
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "description": "Evidence is what a session touched, derived from the structured tool records in its transcript and from git, not from text the model wrote."
+    },
+    "FileActivity": {
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "Path is the absolute path of the file."
+        },
+        "read": {
+          "type": "boolean",
+          "description": "Read is set when the session read the file through a harness tool."
+        },
+        "modified": {
+          "type": "boolean",
+          "description": "Modified is set when the session wrote or edited the file."
+        },
+        "lastSeen": {
+          "type": "string",
+          "format": "date-time",
+          "description": "LastSeen is when the session last touched the file."
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "path"
+      ],
+      "description": "FileActivity says whether a session read or modified one file."
+    },
+    "Prompt": {
+      "properties": {
+        "at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "At is when the prompt was sent."
+        },
+        "text": {
+          "type": "string",
+          "description": "Text is the prompt text, truncated."
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "at",
+        "text"
+      ],
+      "description": "Prompt is a human-authored message, truncated for display."
+    },
+    "RepoActivity": {
+      "properties": {
+        "root": {
+          "type": "string",
+          "description": "Root is the repository's root directory."
+        },
+        "id": {
+          "type": "string",
+          "description": "ID identifies the repository, such as github.com/org/repo, derived from its origin\nremote. It is empty when the repository has no remote."
+        },
+        "cwd": {
+          "type": "boolean",
+          "description": "CWD is set when the session started in this repository."
+        },
+        "executed": {
+          "type": "boolean",
+          "description": "Executed is set when a command ran with this repository as its working directory."
+        },
+        "read": {
+          "type": "boolean",
+          "description": "Read is set when the session read a file in this repository through a harness tool."
+        },
+        "modified": {
+          "type": "boolean",
+          "description": "Modified is set when the session wrote or edited a file in this repository."
+        },
+        "mentioned": {
+          "type": "boolean",
+          "description": "Mentioned is set when the repository was named in a prompt but not otherwise observed."
+        },
+        "fileCount": {
+          "type": "integer",
+          "description": "FileCount is the number of distinct files read or modified in this repository."
+        },
+        "firstSeen": {
+          "type": "string",
+          "format": "date-time",
+          "description": "FirstSeen is the earliest observed activity in this repository."
+        },
+        "lastSeen": {
+          "type": "string",
+          "format": "date-time",
+          "description": "LastSeen is the latest observed activity in this repository."
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "root"
+      ],
+      "description": "RepoActivity says how a session relates to one repository."
+    },
+    "ResumeSpec": {
+      "properties": {
+        "argv": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Argv is the command and arguments that resume the session."
+        },
+        "dir": {
+          "type": "string",
+          "description": "Dir is the directory to run the command from."
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "argv",
+        "dir"
+      ],
+      "description": "ResumeSpec says how to resume a session."
+    },
+    "Runtime": {
+      "properties": {
+        "pid": {
+          "type": "integer",
+          "description": "PID is the operating-system process ID of the harness."
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "description": "Runtime describes the live process attached to a running session."
+    },
+    "Session": {
+      "properties": {
+        "harness": {
+          "type": "string",
+          "description": "Harness is the coding-agent tool that owns the session: claude-code or codex."
+        },
+        "id": {
+          "type": "string",
+          "description": "ID is the harness's own session identifier, durable across process exit and reboot."
+        },
+        "cwd": {
+          "type": "string",
+          "description": "CWD is the directory the session was started in. Resuming must happen from here."
+        },
+        "gitBranch": {
+          "type": "string",
+          "description": "GitBranch is the git branch recorded for the session, when the harness records one."
+        },
+        "gitOrigin": {
+          "type": "string",
+          "description": "GitOrigin is the normalized origin remote, such as github.com/org/repo, when recorded."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "CreatedAt is when the session started."
+        },
+        "lastActivityAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "LastActivityAt is the last activity of any kind, including agent work."
+        },
+        "lastHumanActivityAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "LastHumanActivityAt is the last prompt a person typed. It is absent when none was found.\nA large gap after LastActivityAt means the agent kept working unattended."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title names the session. It comes from the harness when it records one."
+        },
+        "titleSource": {
+          "type": "string",
+          "description": "TitleSource says where Title came from: harness, first-prompt, or cwd."
+        },
+        "recentPrompts": {
+          "items": {
+            "$ref": "#/$defs/Prompt"
+          },
+          "type": "array",
+          "description": "RecentPrompts are the latest prompts a person typed, truncated. They are omitted when\nprompt content is suppressed."
+        },
+        "archived": {
+          "type": "boolean",
+          "description": "Archived is set when the harness marks the session archived."
+        },
+        "state": {
+          "type": "string",
+          "description": "State is running, resumable, or unknown."
+        },
+        "runtime": {
+          "$ref": "#/$defs/Runtime",
+          "description": "Runtime describes the live process when State is running."
+        },
+        "resume": {
+          "$ref": "#/$defs/ResumeSpec",
+          "description": "Resume says how to resume the session."
+        },
+        "evidence": {
+          "$ref": "#/$defs/Evidence",
+          "description": "Evidence is what the session touched. It is populated only when requested, because it\nneeds a full transcript parse."
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "harness",
+        "id",
+        "cwd",
+        "createdAt",
+        "lastActivityAt",
+        "state",
+        "resume"
+      ],
+      "description": "Session is one resumable harness session."
+    },
+    "WorkRef": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ID is the identifier as written, such as RMI-EXAMPLE-012."
+        },
+        "kind": {
+          "type": "string",
+          "description": "Kind is the name of the rule that matched it, such as initiative or rmi."
+        },
+        "sources": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Sources lists where it was found."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title is the identifier's title when a resolver supplied one."
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "sources"
+      ],
+      "description": "WorkRef is a work-tracking identifier found in a session."
+    }
+  },
+  "title": "OmniDevX Session",
+  "description": "A resumable coding-agent session as reported by the OmniDevX session catalog."
+}
