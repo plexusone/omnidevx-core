@@ -10,11 +10,8 @@ import (
 	"io"
 	"io/fs"
 	"os"
-	"os/exec"
 	"path/filepath"
-	"strconv"
 	"strings"
-	"syscall"
 	"time"
 
 	omnidevx "github.com/plexusone/omnidevx-core"
@@ -180,20 +177,6 @@ func (r *SessionReader) liveSessions() (map[string]liveRecord, []omnidevx.Diagno
 		live[rec.SessionID] = rec
 	}
 	return live, diags
-}
-
-// psStart returns the start time of a running process via ps. It returns an
-// error when the process does not exist.
-func psStart(pid int) (time.Time, error) {
-	if err := syscall.Kill(pid, 0); err != nil && !errors.Is(err, syscall.EPERM) {
-		return time.Time{}, err
-	}
-	out, err := exec.Command("ps", "-o", "lstart=", "-p", strconv.Itoa(pid)).Output() //nolint:gosec // pid is an int
-	if err != nil {
-		return time.Time{}, err
-	}
-	// lstart is local time, e.g. "Wed Oct  7 10:04:54 2026".
-	return time.ParseInLocation("Mon Jan _2 15:04:05 2006", strings.TrimSpace(string(out)), time.Local)
 }
 
 // readSession builds a Session from one transcript using bounded head and
