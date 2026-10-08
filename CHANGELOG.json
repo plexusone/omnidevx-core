@@ -7,6 +7,25 @@
   "maintainers": ["grokify", "johncwang@gmail.com"],
   "releases": [
     {
+      "version": "v0.4.1",
+      "date": "2026-10-08",
+      "highlights": [
+        { "description": "The Claude Code session reader now reports running sessions on Windows, where v0.4.0 reported none", "commit": "7d80635" }
+      ],
+      "fixed": [
+        { "description": "Claude Code sessions are reported as `running` on Windows: the process start time is read from the process creation time, so a live-process record is verified there as on macOS and Linux", "commit": "7d80635" }
+      ],
+      "documentation": [
+        { "description": "Removed the incorrect statement that Windows cannot read a process start time, and documented the `oscompat` dependency in the architecture and maintaining pages", "commit": "d87edb5" }
+      ],
+      "dependencies": [
+        { "description": "Added `github.com/grokify/oscompat` v0.6.0 for portable process liveness and start time", "commit": "7d80635" }
+      ],
+      "tests": [
+        { "description": "Added a test that runs the real process probe against the test process, covering a matching start time and a reused PID", "commit": "7d80635" }
+      ]
+    },
+    {
       "version": "v0.4.0",
       "date": "2026-10-07",
     "added": [
