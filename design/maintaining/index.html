@@ -16,7 +16,7 @@
         <link rel="prev" href="../architecture/">
       
       
-        <link rel="next" href="../../releases/v0.4.0/">
+        <link rel="next" href="../../releases/v0.4.1/">
       
       
         
@@ -1054,6 +1054,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../releases/v0.4.1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.4.1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../releases/v0.4.0/" class="md-nav__link">
         
   
@@ -1323,7 +1351,8 @@ prompts, or paths from a personal machine; use placeholders such as
 <code>/Users/example/...</code>.</p>
 <h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
 <p>The module is standard-library only apart from <code>gogit</code>, which the git
-provider uses. Keep it that way: an integration that needs a database driver
+provider uses, and <code>oscompat</code>, which supplies portable process checks and has
+no dependencies of its own. Keep it that way: an integration that needs a database driver
 or a vendor API client belongs in its own repository. Verify the latest
 version of any dependency before adding it.</p>
 <h2 id="recurring-tasks">Recurring tasks<a class="headerlink" href="#recurring-tasks" title="Permanent link">&para;</a></h2>

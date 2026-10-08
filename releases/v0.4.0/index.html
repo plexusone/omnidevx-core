@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://plexusone.github.io/omnidevx-core/releases/v0.4.0/">
       
       
-        <link rel="prev" href="../../design/maintaining/">
+        <link rel="prev" href="../v0.4.1/">
       
       
         <link rel="next" href="../v0.3.0/">
@@ -949,6 +949,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../v0.4.1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.4.1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -1395,7 +1423,8 @@ event store, and never turned into an <code>Event</code>. See the
   evidence from transcripts arrives in a later release.</li>
 <li>On Windows the Claude Code reader cannot verify that a session is running,
   so it never reports one as <code>running</code>. Sessions are listed and resumable;
-  check for an open Claude Code window before resuming.</li>
+  check for an open Claude Code window before resuming. This was fixed in
+  <a href="../v0.4.1/">v0.4.1</a>; the start time can in fact be read on Windows.</li>
 <li>Only the Claude Code reader ships in this module. The Codex CLI reader
   lives in <code>omni-openai</code>.</li>
 </ul>

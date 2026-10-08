@@ -1087,6 +1087,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../releases/v0.4.1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.4.1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../releases/v0.4.0/" class="md-nav__link">
         
   
@@ -1439,7 +1467,7 @@ See the <a href="../../guides/concepts/privacy/">Privacy Model</a>.</p>
 <tr>
 <td><code>providers/claudecode</code></td>
 <td>Claude Code event collector and session reader</td>
-<td>root, <code>sessions</code></td>
+<td>root, <code>sessions</code>, <code>oscompat</code></td>
 </tr>
 <tr>
 <td><code>providers/git</code></td>
@@ -1457,9 +1485,11 @@ See the <a href="../../guides/concepts/privacy/">Privacy Model</a>.</p>
 <ul>
 <li><strong>The root package depends on nothing.</strong> Everything else may import it;
   it imports no sibling package.</li>
-<li><strong><code>gogit</code> is the only third-party dependency</strong> of the module, used by the
-  git provider. Everything else is the standard library. Integrations that
-  need a driver or an API client belong in their own repository, not here.</li>
+<li><strong>Two small third-party dependencies, no more.</strong> <code>gogit</code> serves the git
+  provider, and <code>oscompat</code> gives the Claude session reader a portable process
+  start-time check. <code>oscompat</code> itself uses only the standard library.
+  Everything else is the standard library. Integrations that need a driver or
+  an API client belong in their own repository, not here.</li>
 <li><strong>Providers do not depend on each other.</strong> They depend on the root, and
   the two that need more depend on exactly one more package (<code>sessions</code> for
   the session reader, <code>store</code> for the receiver).</li>

@@ -10,31 +10,31 @@
       
       
       
-        <link rel="canonical" href="https://plexusone.github.io/omnidevx-core/guides/concepts/identity/">
+        <link rel="canonical" href="https://plexusone.github.io/omnidevx-core/releases/v0.4.1/">
       
       
-        <link rel="prev" href="../reports/">
+        <link rel="prev" href="../../design/maintaining/">
       
       
-        <link rel="next" href="../privacy/">
+        <link rel="next" href="../v0.4.0/">
       
       
         
       
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>Identity - OmniDevX Core</title>
+        <title>v0.4.1 - OmniDevX Core</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -55,7 +55,7 @@
     
       <link rel="stylesheet" href="https://plexusone.dev/css/plexusone-mkdocs.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#identity" class="md-skip">
+        <a href="#omnidevx-core-v041-release-notes" class="md-skip">
           Skip to content
         </a>
       
@@ -101,7 +101,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="OmniDevX Core" class="md-header__button md-logo" aria-label="OmniDevX Core" data-md-component="logo">
+    <a href="../.." title="OmniDevX Core" class="md-header__button md-logo" aria-label="OmniDevX Core" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -121,7 +121,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Identity
+              v0.4.1
             
           </span>
         </div>
@@ -238,7 +238,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="OmniDevX Core" class="md-nav__button md-logo" aria-label="OmniDevX Core" data-md-component="logo">
+    <a href="../.." title="OmniDevX Core" class="md-nav__button md-logo" aria-label="OmniDevX Core" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -268,7 +268,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -292,8 +292,6 @@
       
   
   
-    
-  
   
   
     
@@ -306,11 +304,13 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
         
           
           <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
@@ -331,7 +331,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -349,7 +349,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/" class="md-nav__link">
+      <a href="../../guides/getting-started/" class="md-nav__link">
         
   
   
@@ -374,8 +374,6 @@
                 
   
   
-    
-  
   
   
     
@@ -385,11 +383,13 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
         
           
           <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
@@ -410,7 +410,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -428,7 +428,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../events/" class="md-nav__link">
+      <a href="../../guides/concepts/events/" class="md-nav__link">
         
   
   
@@ -456,7 +456,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../store/" class="md-nav__link">
+      <a href="../../guides/concepts/store/" class="md-nav__link">
         
   
   
@@ -484,7 +484,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sessions/" class="md-nav__link">
+      <a href="../../guides/concepts/sessions/" class="md-nav__link">
         
   
   
@@ -512,7 +512,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/" class="md-nav__link">
+      <a href="../../guides/concepts/reports/" class="md-nav__link">
         
   
   
@@ -537,37 +537,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Identity
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../guides/concepts/identity/" class="md-nav__link">
         
   
   
@@ -583,59 +556,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#building-a-map" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Building a map
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#resolving" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Resolving
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#why-git-emails-are-hashed" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Why git emails are hashed
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -648,7 +568,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../privacy/" class="md-nav__link">
+      <a href="../../guides/concepts/privacy/" class="md-nav__link">
         
   
   
@@ -735,7 +655,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../providers/claudecode/" class="md-nav__link">
+      <a href="../../guides/providers/claudecode/" class="md-nav__link">
         
   
   
@@ -763,7 +683,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../providers/git/" class="md-nav__link">
+      <a href="../../guides/providers/git/" class="md-nav__link">
         
   
   
@@ -791,7 +711,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../providers/genericotel/" class="md-nav__link">
+      <a href="../../guides/providers/genericotel/" class="md-nav__link">
         
   
   
@@ -888,7 +808,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../design/architecture/" class="md-nav__link">
+      <a href="../../design/architecture/" class="md-nav__link">
         
   
   
@@ -916,7 +836,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../design/maintaining/" class="md-nav__link">
+      <a href="../../design/maintaining/" class="md-nav__link">
         
   
   
@@ -975,8 +895,10 @@
       
   
   
+    
   
   
+  
     
     
     
@@ -987,13 +909,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
@@ -1014,7 +934,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1029,10 +949,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../../releases/v0.4.1/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.4.1
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1048,6 +995,81 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fixed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1060,7 +1082,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../releases/v0.4.0/" class="md-nav__link">
+      <a href="../v0.4.0/" class="md-nav__link">
         
   
   
@@ -1088,7 +1110,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../releases/v0.3.0/" class="md-nav__link">
+      <a href="../v0.3.0/" class="md-nav__link">
         
   
   
@@ -1116,7 +1138,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../releases/v0.2.0/" class="md-nav__link">
+      <a href="../v0.2.0/" class="md-nav__link">
         
   
   
@@ -1144,7 +1166,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../releases/v0.1.0/" class="md-nav__link">
+      <a href="../v0.1.0/" class="md-nav__link">
         
   
   
@@ -1199,10 +1221,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#building-a-map" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Building a map
+        Overview
       
     </span>
   </a>
@@ -1210,10 +1232,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#resolving" class="md-nav__link">
+  <a href="#fixed" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Resolving
+        Fixed
       
     </span>
   </a>
@@ -1221,10 +1243,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#why-git-emails-are-hashed" class="md-nav__link">
+  <a href="#dependencies" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why git emails are hashed
+        Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration
       
     </span>
   </a>
@@ -1251,39 +1295,34 @@
   
 
 
-<h1 id="identity">Identity<a class="headerlink" href="#identity" title="Permanent link">&para;</a></h1>
-<p>The <code>identity</code> package resolves raw account identifiers — GitHub usernames,
-git commit emails, device-scoped local accounts — to a canonical
-<code>personId</code>, so <a href="../reports/">period reports</a> can aggregate one developer's
-activity across multiple accounts and machines without conflating people.</p>
-<p>GitHub username is never the canonical identity: a developer may have
-multiple GitHub accounts, several git commit emails, and local OS accounts
-on more than one machine.</p>
-<h2 id="building-a-map">Building a map<a class="headerlink" href="#building-a-map" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nx">people</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">[]</span><span class="nx">identity</span><span class="p">.</span><span class="nx">Person</span><span class="p">{{</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="nx">PersonID</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;person:01J...&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nx">Identities</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="nx">identity</span><span class="p">.</span><span class="nx">Identity</span><span class="p">{</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">        </span><span class="p">{</span><span class="nx">Type</span><span class="p">:</span><span class="w"> </span><span class="nx">identity</span><span class="p">.</span><span class="nx">TypeGitHub</span><span class="p">,</span><span class="w"> </span><span class="nx">Value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;grokify&quot;</span><span class="p">},</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">        </span><span class="p">{</span><span class="nx">Type</span><span class="p">:</span><span class="w"> </span><span class="nx">identity</span><span class="p">.</span><span class="nx">TypeGitEmail</span><span class="p">,</span><span class="w"> </span><span class="nx">ValueHash</span><span class="p">:</span><span class="w"> </span><span class="nx">identity</span><span class="p">.</span><span class="nx">HashEmail</span><span class="p">(</span><span class="s">&quot;john@example.com&quot;</span><span class="p">)},</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">        </span><span class="p">{</span><span class="nx">Type</span><span class="p">:</span><span class="w"> </span><span class="nx">identity</span><span class="p">.</span><span class="nx">TypeLocalAccount</span><span class="p">,</span><span class="w"> </span><span class="nx">DeviceID</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;device:mac-studio&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">Value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;john&quot;</span><span class="p">},</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="p">},</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">}}</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="nx">m</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">identity</span><span class="p">.</span><span class="nx">NewMap</span><span class="p">(</span><span class="nx">people</span><span class="p">)</span>
+<h1 id="omnidevx-core-v041-release-notes">omnidevx-core v0.4.1 Release Notes<a class="headerlink" href="#omnidevx-core-v041-release-notes" title="Permanent link">&para;</a></h1>
+<p><strong>Release Date:</strong> 2026-10-08</p>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>Patch release for the Claude Code session reader on Windows. In v0.4.0 the
+reader never reported a session as <code>running</code> on Windows, and the release
+notes said the process start time could not be read there using only the
+standard library. That was wrong: Windows exposes a process's creation time,
+and the reader now uses it.</p>
+<h2 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Running state on Windows.</strong> The reader verifies a live-process record by
+  checking that the process exists and started when the record says it did,
+  so that a stale record naming a reused process ID is ignored. That check now
+  works on Windows, as it does on macOS and Linux. Sessions with a live
+  process show as <code>running</code> instead of <code>resumable</code>.</li>
+</ul>
+<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Adds <a href="https://github.com/grokify/oscompat"><code>github.com/grokify/oscompat</code></a>
+  v0.6.0 for the process check. It has no dependencies of its own, so the
+  module's third-party surface is <code>gogit</code> and <code>oscompat</code>.</li>
+</ul>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>go<span class="w"> </span>get<span class="w"> </span>github.com/plexusone/omnidevx-core@v0.4.1
 </code></pre></div>
-<p><code>NewMap</code> rejects a duplicate identity claimed by two different people —
-ambiguous resolution is a configuration error, not a runtime fallback
-decision.</p>
-<h2 id="resolving">Resolving<a class="headerlink" href="#resolving" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nx">m</span><span class="p">.</span><span class="nx">ResolveGitHub</span><span class="p">(</span><span class="s">&quot;grokify&quot;</span><span class="p">)</span><span class="w">                          </span><span class="c1">// (personId, ok)</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nx">m</span><span class="p">.</span><span class="nx">ResolveGitEmail</span><span class="p">(</span><span class="s">&quot;john@example.com&quot;</span><span class="p">)</span><span class="w">                </span><span class="c1">// hashed before lookup</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nx">m</span><span class="p">.</span><span class="nx">ResolveLocalAccount</span><span class="p">(</span><span class="s">&quot;device:mac-studio&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;john&quot;</span><span class="p">)</span><span class="w">   </span><span class="c1">// device-scoped</span>
-</code></pre></div>
-<h2 id="why-git-emails-are-hashed">Why git emails are hashed<a class="headerlink" href="#why-git-emails-are-hashed" title="Permanent link">&para;</a></h2>
-<p><code>Identity.ValueHash</code> stores <code>sha256:&lt;hex&gt;</code> of the lowercased, trimmed
-email — never the raw address — so an identity map can be committed to a
-config file without leaking email addresses. <code>HashEmail</code> normalizes the
-same way <code>ResolveGitEmail</code> does internally, so callers pass raw addresses
-on both sides.</p>
+<h2 id="migration">Migration<a class="headerlink" href="#migration" title="Permanent link">&para;</a></h2>
+<p>No API changes. If you rely on Windows never reporting <code>running</code>, note that
+it now can.</p>
 
 
 
@@ -1355,10 +1394,10 @@ on both sides.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>
