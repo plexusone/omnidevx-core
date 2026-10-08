@@ -1393,6 +1393,9 @@ event store, and never turned into an <code>Event</code>. See the
 <li>The session readers do not populate <code>Evidence</code> yet. The model, the
   repository index, and work-reference extraction are in place; filling
   evidence from transcripts arrives in a later release.</li>
+<li>On Windows the Claude Code reader cannot verify that a session is running,
+  so it never reports one as <code>running</code>. Sessions are listed and resumable;
+  check for an open Claude Code window before resuming.</li>
 <li>Only the Claude Code reader ships in this module. The Codex CLI reader
   lives in <code>omni-openai</code>.</li>
 </ul>

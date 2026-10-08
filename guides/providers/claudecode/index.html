@@ -1297,7 +1297,10 @@ person typed, which events never carry; see the
 <li><strong>Running state.</strong> <code>~/.claude/sessions/&lt;pid&gt;.json</code> records a live process.
   A session is <code>running</code> only if that process exists and started when the
   record says it did, so a stale record that names a reused process ID is
-  ignored.</li>
+  ignored. On Windows the start time cannot be read using only the standard
+  library, so sessions are never reported as <code>running</code> there; they show as
+  <code>resumable</code>, and you should check that Claude Code is not already open in
+  that session before resuming it.</li>
 <li><strong>Resume.</strong> <code>claude --resume &lt;id&gt;</code> from the session's original directory,
   because Claude Code finds a session by the project directory it started in.</li>
 </ul>
