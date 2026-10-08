@@ -14,6 +14,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/grokify/oscompat/process"
 	omnidevx "github.com/plexusone/omnidevx-core"
 	"github.com/plexusone/omnidevx-core/sessions"
 )
@@ -58,7 +59,7 @@ func NewSessionReader(opts Options) (*SessionReader, error) {
 		}
 		dir = filepath.Join(home, ".claude")
 	}
-	return &SessionReader{dir: dir, processStart: psStart}, nil
+	return &SessionReader{dir: dir, processStart: process.StartTime}, nil
 }
 
 // Harness implements sessions.Reader.

@@ -1,2 +1,4 @@
 github.com/grokify/gogit v0.13.1 h1:aRD3K5IOviJMFAq+pWnNE0nZ66lGaR8yWCwcn9bc3lw=
 github.com/grokify/gogit v0.13.1/go.mod h1:Z3Hkm296MVSSmWAQHvNdWNRXW6Jd/exCLEIijyyL5Dk=
+github.com/grokify/oscompat v0.6.0 h1:/y++5vPPZRj8AGFcMMp1qcTY52PjnvpCYFayMlQYdMA=
+github.com/grokify/oscompat v0.6.0/go.mod h1:Ekex/WzHaA39LNt5xbeQRASo74NEXAIqBlqdvNF2oUM=

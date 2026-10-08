@@ -10,6 +10,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/grokify/oscompat/process"
 	"github.com/plexusone/omnidevx-core/sessions"
 )
 
@@ -321,5 +322,49 @@ func TestSessionReaderUnreadableFileBecomesDiagnostic(t *testing.T) {
 	}
 	if len(got) != 0 || len(diags) != 1 || diags[0].Path != path {
 		t.Fatalf("sessions=%d diags=%+v, want 0 sessions and one diagnostic for %s", len(got), diags, path)
+	}
+}
+
+// TestSessionReaderRealProbe runs the reader with the real process probe
+// against this test process, which is a live process on every OS, so the
+// platform-specific start-time code is exercised and not only the stub.
+func TestSessionReaderRealProbe(t *testing.T) {
+	started, err := process.StartTime(os.Getpid())
+	if err != nil {
+		t.Fatal(err)
+	}
+	const id = "aaaaaaaa-aaaa-bbbb-cccc-0000000000ff"
+	tests := []struct {
+		name     string
+		recorded time.Time
+		want     sessions.State
+	}{
+		{"matching start time is running", started, sessions.StateRunning},
+		{"reused PID is not running", started.Add(-48 * time.Hour), sessions.StateResumable},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			root := t.TempDir()
+			writeSession(t, root, id, userText(t, at(0), "hello", "promptSource", "typed"))
+			dir := filepath.Join(root, "sessions")
+			if err := os.MkdirAll(dir, 0o755); err != nil {
+				t.Fatal(err)
+			}
+			pid := os.Getpid()
+			data := line(t, "pid", pid, "sessionId", id, "startedAt", tt.recorded.UnixMilli())
+			if err := os.WriteFile(filepath.Join(dir, fmt.Sprintf("%d.json", pid)), []byte(data), 0o600); err != nil {
+				t.Fatal(err)
+			}
+			r := newReader(t, root)
+			r.processStart = process.StartTime
+
+			got, _, err := r.List(context.Background(), sessions.ListOptions{})
+			if err != nil {
+				t.Fatal(err)
+			}
+			if len(got) != 1 || got[0].State != tt.want {
+				t.Fatalf("sessions = %+v, want one session in state %s", got, tt.want)
+			}
+		})
 	}
 }
