@@ -106,7 +106,7 @@ property descriptions.
 **Adding a new provider:**
 1. Create `providers/<name>/` with `collector.go` implementing `omnidevx.Collector`
 2. Add tests with fabricated fixtures (no real data)
-3. Update README and `docs/providers/<name>.md`
+3. Update README and `docs/guides/providers/<name>.md`
 
 ## Metric Keys
 
@@ -148,7 +148,7 @@ separate from the event stream: its readers never produce `Event` values,
 nothing they return is written to the event store, they make no network
 calls, and `NoContent` suppresses prompt-derived fields. Do not add content
 fields to `Event`, and do not route session data into the store. See
-`docs/concepts/privacy.md`.
+`docs/guides/concepts/privacy.md`.
 
 ## Data Paths
 
@@ -200,5 +200,20 @@ schangelog generate CHANGELOG.json -o CHANGELOG.md
 
 - **MkDocs site:** https://plexusone.github.io/omnidevx-core
 - **GoDoc:** https://pkg.go.dev/github.com/plexusone/omnidevx-core
-- **Concept docs:** `docs/concepts/` (events, store, reports, identity, privacy)
-- **Provider guides:** `docs/providers/`
+- **Concept docs:** `docs/guides/concepts/` (events, store, sessions, reports, identity, privacy)
+- **Provider guides:** `docs/guides/providers/`
+- **Design docs:** `docs/design/` (architecture, maintaining)
+
+### Documentation Layout
+
+| Path | Contents |
+|------|----------|
+| `docs/index.md` | Site home |
+| `docs/guides/` | User documentation: getting started, concepts, providers |
+| `docs/design/` | Living design docs: architecture, maintainer information |
+| `docs/specs/` | Specs for initiatives whose home repo is this one |
+| `docs/releases/` | Release notes, one file per tag |
+
+Update user guides in the same change as user-visible behavior, and design
+docs in the same change as internals. Every page must be in the `mkdocs.yml`
+nav, and `mkdocs build --strict` must pass.
