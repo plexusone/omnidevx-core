@@ -5,6 +5,27 @@
   "versioning": "semver",
   "commitConvention": "conventional",
   "maintainers": ["grokify", "johncwang@gmail.com"],
+  "unreleased": {
+    "added": [
+      {"description": "`sessions` package: a provider-neutral catalog of coding-agent sessions (`Session`, `Reader`, `Catalog`, `ResumeSpec`) that merges readers newest-first, resolves IDs by unique prefix, and keeps a failing reader from hiding the others", "commit": "1bf3bcc"},
+      {"description": "Claude Code session reader that lists sessions with bounded start and end reads, tells typed prompts from tool results and injected context, and reports running state from live-process records verified against the process's start time", "commit": "691f66b"},
+      {"description": "Evidence data model recording the repositories, files, commits, and work-tracking IDs a session touched, documented as a lower bound", "commit": "1b79338"},
+      {"description": "Work-reference extraction with named, validated regular-expression rules (defaults match INIT- and RMI- IDs), source-merging accumulation, and an optional title resolver", "commit": "a9e5376"},
+      {"description": "Session configuration loaded from `~/.plexusone/omnidevx/config.json`: workspace roots and work-reference rules, with a missing file giving defaults and unknown keys rejected", "commit": "fbbb35f"},
+      {"description": "Repository index mapping any path to its git repository by deepest match, with IDs derived from the origin remote and support for linked worktrees and submodules", "commit": "4b72472"},
+      {"description": "Generated and embedded JSON Schema for `sessions.Session` (`sessions/schema`), with tests that fail when the schema and the Go structs disagree", "commit": "a325048"}
+    ],
+    "changed": [
+      {"description": "An ambiguous session ID prefix lists at most eight candidates with truncated titles and reports how many matched", "commit": "d046265"}
+    ],
+    "documentation": [
+      {"description": "Sessions concept page, session reader section in the Claude Code provider guide, and a Privacy Model section stating that the session catalog reads titles and typed prompts and how that is kept apart from the event stream", "commit": "aa72514"},
+      {"description": "Point the org guidelines reference at AGENTS.md", "commit": "b291051"}
+    ],
+    "dependencies": [
+      {"description": "Bumped `github.com/grokify/gogit` from 0.11.0 to 0.13.1", "commit": "a563cdb"}
+    ]
+  },
   "releases": [
     {
       "version": "v0.3.0",
