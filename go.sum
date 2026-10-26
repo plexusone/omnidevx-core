@@ -1,4 +1,4 @@
 github.com/grokify/gogit v0.15.0 h1:nXd1KDlogbmWIBLVONDdgpOjX33lo9J1PBpKClZpUm4=
 github.com/grokify/gogit v0.15.0/go.mod h1:Wy9tAbgnMRaVxL6K910kLEz74Q6rn16FAENk5QQrqQs=
-github.com/grokify/oscompat v0.7.0 h1:aD36tcBnPQRvxQGtuclr0qG87zv6yh5e2FSPETBO+2E=
-github.com/grokify/oscompat v0.7.0/go.mod h1:Ekex/WzHaA39LNt5xbeQRASo74NEXAIqBlqdvNF2oUM=
+github.com/grokify/oscompat v0.9.0 h1:9IqHoh+YTM+v4Fw/40vT60HyZ756pqOe7v1DT9XBVfc=
+github.com/grokify/oscompat v0.9.0/go.mod h1:Ekex/WzHaA39LNt5xbeQRASo74NEXAIqBlqdvNF2oUM=
